@@ -21,6 +21,7 @@ return require('packer').startup(function(use)
     -- UI
     use('navarasu/onedark.nvim')
     use('nvim-tree/nvim-web-devicons')
+    use('edluffy/hologram.nvim')
 
     use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' })
     use('nvim-treesitter/playground')
@@ -39,6 +40,7 @@ return require('packer').startup(function(use)
     -- Editing
     use { 'windwp/nvim-autopairs', }
     use { 'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim' }
+    use { 'numToStr/Comment.nvim' }
 
     -- terminal
     -- use { "akinsho/toggleterm.nvim", }

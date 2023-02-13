@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/Users/akshay/.local/share/nvim/site/pack/packer/start/harpoon",
     url = "https://github.com/theprimeagen/harpoon"
   },
+  ["hologram.nvim"] = {
+    loaded = true,
+    path = "/Users/akshay/.local/share/nvim/site/pack/packer/start/hologram.nvim",
+    url = "https://github.com/edluffy/hologram.nvim"
+  },
   ["kanagawa.nvim"] = {
     loaded = true,
     path = "/Users/akshay/.local/share/nvim/site/pack/packer/start/kanagawa.nvim",

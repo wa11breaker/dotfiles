@@ -15,7 +15,7 @@ end
 
 function LoadOneDark()
     require('onedark').setup {
-        style = 'warm',
+        style = 'dark',
         transparent = false, -- Show/hide background
         code_style = {
             comments = 'italic',
@@ -59,4 +59,4 @@ function LoadKanagawa()
 
 end
 
-LoadKanagawa()
+LoadOneDark()
