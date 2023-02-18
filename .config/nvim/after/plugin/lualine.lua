@@ -2,25 +2,7 @@
 
 local mode = {
     'mode',
-    -- fmt = function(str) return str:sub(1, 1) end
-    fmt = str,
-}
-
-local branch = {
-    'branch',
-    icon = ''
-}
-
-local diff = {
-    'diff',
-    symbols = { added = ' ', modified = ' ', removed = ' ' },
-    padding = { left = 0, right = 1 }
-}
-
-local filetype = {
-    'filetype',
-    padding = { left = 1, right = 0 },
-    icon_only = true
+    fmt = function(str) return str:sub(1, 1) end
 }
 
 local filename = {
@@ -39,18 +21,14 @@ local diagnostics = {
 local encoding = {
     'encoding',
     fmt = function(str) return string.upper(str) end,
-    padding = { left = 1, right = 0 }
-}
-
-local fileformat = {
-    'fileformat',
-    symbols = { unix = 'LF', dos = 'CRLF', mac = 'CR' }
+    padding = { left = 1, right = 1 },
+    separator = { left = "" },
 }
 
 local progress = {
     '%P',
     icon = "",
-    padding = { left = 0, right = 0 }
+    padding = { left = 0, right = 1 },
 }
 
 local filename_inactive = {
@@ -58,6 +36,21 @@ local filename_inactive = {
     padding = 1,
     path = 0,
     symbols = { modified = ' ', readonly = ' ', unnamed = '' }
+}
+
+local location = {
+    'location',
+
+}
+
+local filetype = {
+    'filetype',
+    separator = { left = "" },
+}
+
+local branch = {
+    'branch',
+    separator = { right = "" },
 }
 
 --- Setup ---
@@ -79,11 +72,11 @@ require('lualine').setup {
 
     sections = {
         lualine_a = { mode },
-        lualine_b = { branch, diff, },
-        lualine_c = { filetype, filename },
-        lualine_x = { diagnostics },
-        lualine_y = { encoding, fileformat },
-        lualine_z = { 'searchcount', progress, 'location' }
+        lualine_b = { branch },
+        lualine_c = { filename },
+        lualine_x = { diagnostics, encoding },
+        lualine_y = { filetype, 'searchcount', progress },
+        lualine_z = { location }
     },
 
     inactive_sections = {
