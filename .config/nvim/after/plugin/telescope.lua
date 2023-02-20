@@ -11,6 +11,23 @@ map('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]ea
 map('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
 map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
+local function telescope_buffer_dir()
+    return vim.fn.expand('%:p:h')
+end
+
+vim.keymap.set("n", "sf", function()
+    require('telescope').extensions.file_browser.file_browser({
+        path = "%:p:h",
+        cwd = telescope_buffer_dir(),
+        respect_gitignore = false,
+        hidden = true,
+        grouped = true,
+        previewer = false,
+        initial_mode = "normal",
+        layout_config = { height = 40 }
+    })
+end)
+
 local actions = require('telescope.actions')
 require('nvim-web-devicons').setup({
     override = {},

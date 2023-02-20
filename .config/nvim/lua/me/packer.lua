@@ -17,11 +17,13 @@ return require('packer').startup(function(use)
         'nvim-telescope/telescope.nvim', tag = '0.1.0',
         requires = { { 'nvim-lua/plenary.nvim' } }
     }
+    use 'nvim-telescope/telescope-file-browser.nvim'
 
     -- UI
     use('navarasu/onedark.nvim')
     use('nvim-tree/nvim-web-devicons')
     use('edluffy/hologram.nvim')
+    use('goolord/alpha-nvim')
 
     use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' })
     use('nvim-treesitter/playground')
