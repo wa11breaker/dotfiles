@@ -37,6 +37,8 @@ opt.list = true
 opt.cursorline = true
 opt.termguicolors = true
 
+vim.opt.cmdheight = 0
+
 vim.api.nvim_create_autocmd('TextYankPost', {
     callback = function()
         vim.highlight.on_yank({

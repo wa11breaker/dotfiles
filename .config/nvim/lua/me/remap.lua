@@ -45,14 +45,14 @@ map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsea
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
 
--- Search stays in the middle
+-- Center after search and jumps
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- Replace a word with yanked text
+-- Paste and without overwriting register
 map("x", "<leader>p", [["_dP]])
 
--- Deleting to void registry
+-- Delete and without overwriting register
 map({ "n", "v" }, "<leader>d", [["_d]])
 
 -- Terminal
