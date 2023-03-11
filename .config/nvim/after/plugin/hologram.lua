@@ -1,1 +1,0 @@
-require("hologram").setup({})

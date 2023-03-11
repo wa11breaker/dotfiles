@@ -34,7 +34,7 @@ map("i", "<C-l>", "<Right>", opts)
 -- Join lines without moving the curser to the end
 map("n", "J", "mzJ`z")
 
--- better indenting
+-- Better indenting
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
@@ -66,3 +66,19 @@ map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
 map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
 map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 map("n", "<leader><tab>q", "<cmd>tabclose<cr>", { desc = "Close Tab" })
+
+map('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', opts)
+
+-- Telescope
+map('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
+map('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
+map('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
+map('n', '<leader>sg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
+map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
+
+-- Diagnostic keymaps
+map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
+map('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
+map('n', '<leader>i', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+map('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+

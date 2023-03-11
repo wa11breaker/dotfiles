@@ -1,4 +1,6 @@
-require("nvim-tree").setup {
+local plugin = require "nvim-tree"
+
+plugin.setup {
     filters = {
         dotfiles = false,
         custom = { "^\\.git$" },
@@ -96,5 +98,3 @@ require("nvim-tree").setup {
         },
     },
 }
-
-vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>')
