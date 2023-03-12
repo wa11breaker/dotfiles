@@ -36,6 +36,9 @@ local plugins = {
 	{
 		'rebelot/kanagawa.nvim'
 	},
+	{
+		'sainnhe/everforest'
+	},
 
 	-- essentials
 	{

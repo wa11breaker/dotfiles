@@ -60,4 +60,6 @@ require("kanagawa").setup({
 	},
 })
 
-require("kanagawa").load("wave")
+-- require("kanagawa").load("wave")
+
+vim.cmd [[colorscheme everforest]]
