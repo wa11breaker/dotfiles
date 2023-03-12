@@ -64,7 +64,7 @@ require('lualine').setup {
 		component_separators = { " ", " " },
 		section_separators = { left = "", right = "" },
 		always_divide_middle = true,
-		disabled_filetypes = {},
+		disabled_filetypes = { 'nvim-tree' },
 		globalstatus = false,
 	},
 

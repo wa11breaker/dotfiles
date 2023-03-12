@@ -126,6 +126,12 @@ local plugins = {
 		config = function() require "plugins/dap" end,
 	},
 
+	-- flutter
+	{
+		"akinsho/flutter-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
+
 	-- file tree
 	{
 		"nvim-tree/nvim-tree.lua",

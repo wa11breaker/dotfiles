@@ -41,3 +41,17 @@ require("lspconfig").gopls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
+
+require("flutter-tools").setup {
+	lsp = {
+		on_attach = on_attach,
+	},
+	debugger = {
+		enabled = true,
+		run_via_dap = true,
+		register_configurations = function(_)
+			require("dap").configurations.dart = {}
+			require("dap.ext.vscode").load_launchjs()
+		end,
+	}
+}
