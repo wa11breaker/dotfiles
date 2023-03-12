@@ -55,6 +55,13 @@ map("x", "<leader>p", [["_dP]])
 -- Delete and without overwriting register
 map({ "n", "v" }, "<leader>d", [["_d]])
 
+-- Easier window switching with leader + Number
+for i = 1, 6 do
+	local lhs = "<Leader>" .. i
+	local rhs = i .. "<C-W>w"
+	map("n", lhs, rhs, { desc = "Move to Window " .. i })
+end
+
 -- Terminal
 map({ "n", "t" }, "<leader>t", "<Cmd>ToggleTerm<CR>")
 map({ "n", "t" }, "<C-t>", "<Cmd>ToggleTerm<CR>")
@@ -81,4 +88,3 @@ map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic mes
 map('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 map('n', '<leader>i', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
-

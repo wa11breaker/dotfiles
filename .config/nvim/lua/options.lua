@@ -40,3 +40,9 @@ vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
 vim.o.termguicolors = true
+
+-- make windows the samue width when closing one
+opt.equalalways = true
+
+-- Allows neovom to send the Terminal details of the current window, instead of just getting 'v'
+opt.title = true

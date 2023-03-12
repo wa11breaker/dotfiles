@@ -1,65 +1,91 @@
-local plugin = require "telescope"
+local telescope = require "telescope"
+local actions = require "telescope.actions"
+local actions_layout = require "telescope.actions.layout"
 
-local extensions = {
-    "file_browser",
+telescope.setup {
+	defaults = {
+		multi_icon = "",
+		layout_strategy = "flex",
+		scroll_strategy = "cycle",
+		selection_strategy = "reset",
+		winblend = 0,
+		layout_config = {
+			vertical = {
+				mirror = true,
+			},
+			center = {
+				mirror = true,
+			},
+		},
+		hl_result_eol = false,
+		preview = {
+			msg_bg_fillchar = " ",
+		},
+		history = {
+			cycle_wrap = true,
+		},
+		cache = false,
+		mappings = {
+			i = {
+				["<C-s>"] = actions.cycle_previewers_next,
+				["<C-a>"] = actions.cycle_previewers_prev,
+				["<C-Down>"] = actions.cycle_history_next,
+				["<C-Up>"] = actions.cycle_history_prev,
+				["<C-h>"] = actions_layout.toggle_preview,
+				["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
+				["<a-q>"] = false,
+				["<c-c>"] = function()
+					vim.cmd [[stopinsert]]
+				end,
+				["<esc>"] = actions.close,
+			},
+		},
+		file_ignore_patterns = { "src/parser.c" },
+		dynamic_preview_title = true,
+	},
+	pickers = {
+		find_files = {
+			theme = "dropdown",
+			previewer = false,
+		},
+		file_browser = {
+			theme = "dropdown",
+			previewer = false,
+		},
+		git_files = {
+			theme = "dropdown",
+			previewer = false,
+		},
+		buffers = {
+			sort_mru = true,
+			theme = "dropdown",
+			previewer = false,
+			mappings = {
+				i = { ["<c-d>"] = actions.delete_buffer },
+			},
+		},
+		man_pages = { sections = { "2", "3" } },
+		lsp_references = { path_display = { "shorten" } },
+		lsp_code_actions = { theme = "dropdown" },
+		current_buffer_fuzzy_find = { theme = "dropdown" },
+	},
+	extensions = {
+		["ui-select"] = {
+			require("telescope.themes").get_dropdown {},
+		},
+		frecency = {
+			persistent_filter = false,
+			show_scores = true,
+			show_unindexed = true,
+			ignore_patterns = { "*.git/*", "*/tmp/*", "*.foo" },
+			workspaces = {
+				["conf"] = "/home/conni/.config",
+				["nvim"] = "/home/conni/.config/nvim/plugged",
+				["data"] = "/home/conni/.local/share",
+				["project"] = "/home/conni/repos",
+			},
+		},
+	},
 }
 
-plugin.setup {
-    defaults = {
-        vimgrep_arguments = {
-            "rg",
-            "-L",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden",
-        },
-        prompt_prefix = "   ",
-        selection_caret = "  ",
-        entry_prefix = "  ",
-        initial_mode = "insert",
-        selection_strategy = "reset",
-        sorting_strategy = "ascending",
-        layout_strategy = "horizontal",
-        layout_config = {
-            horizontal = {
-                prompt_position = "top",
-                preview_width = 0.4,
-                results_width = 0.8,
-            },
-            vertical = {
-                mirror = true,
-            },
-            width = 0.6,
-            height = 0.80,
-            preview_cutoff = 120,
-        },
-        file_sorter = require("telescope.sorters").get_fuzzy_file,
-        file_ignore_patterns = { ".git/", "node_modules" },
-        generic_sorter = require("telescope.sorters").get_generic_fuzzy_sorter,
-        path_display = { "truncate" },
-        winblend = 0,
-        border = {},
-        borderchars = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-        color_devicons = true,
-        set_env = { ["COLORTERM"] = "truecolor" }, -- default = nil,
-        file_previewer = require("telescope.previewers").vim_buffer_cat.new,
-        grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
-        qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
-        -- Developer configurations: Not meant for general override
-        buffer_previewer_maker = require("telescope.previewers").buffer_previewer_maker,
-        mappings = {
-            n = { ["q"] = require("telescope.actions").close },
-        },
-    },
-    extensions_list = extensions,
-}
-
-pcall(function()
-    for _, ext in ipairs(extensions) do
-        plugin.load_extension(ext)
-    end
-end)
+telescope.load_extension "ui-select"
