@@ -152,7 +152,9 @@ local plugins = {
 		},
 		config = function() require "plugins/telescope" end,
 	},
-
+	{
+		'nvim-telescope/telescope-fzf-native.nvim', build = 'make'
+	},
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
 		version = "*",

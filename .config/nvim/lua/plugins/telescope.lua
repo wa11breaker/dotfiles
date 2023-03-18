@@ -40,7 +40,11 @@ telescope.setup {
 				["<esc>"] = actions.close,
 			},
 		},
-		file_ignore_patterns = { "src/parser.c" },
+		file_ignore_patterns = {
+			"src/parser.c",
+			"node_modules",
+			"build",
+		},
 		dynamic_preview_title = true,
 	},
 	pickers = {
@@ -73,19 +77,21 @@ telescope.setup {
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown {},
 		},
+		fzf = {
+			fuzzy = true,
+			override_generic_sorter = true,
+			override_file_sorter = true,
+			case_mode = "smart_case",
+		},
 		frecency = {
 			persistent_filter = false,
 			show_scores = true,
 			show_unindexed = true,
 			ignore_patterns = { "*.git/*", "*/tmp/*", "*.foo" },
-			workspaces = {
-				["conf"] = "/home/conni/.config",
-				["nvim"] = "/home/conni/.config/nvim/plugged",
-				["data"] = "/home/conni/.local/share",
-				["project"] = "/home/conni/repos",
-			},
+			workspaces = {},
 		},
 	},
 }
 
 telescope.load_extension "ui-select"
+require('telescope').load_extension('fzf')

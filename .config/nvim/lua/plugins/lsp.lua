@@ -32,15 +32,17 @@ end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+local lspconfig = require('lspconfig')
 
-require("lspconfig").sumneko_lua.setup {
+lspconfig.sumneko_lua.setup {
+	capabilities = capabilities,
+	on_attach = on_attach,
+}
+
+lspconfig.gopls.setup {
 	on_attach = on_attach,
 	capabilities = capabilities,
 }
-require("lspconfig").gopls.setup({
-	on_attach = on_attach,
-	capabilities = capabilities,
-})
 
 require("flutter-tools").setup {
 	lsp = {
