@@ -42,8 +42,8 @@ telescope.setup {
 		},
 		file_ignore_patterns = {
 			"src/parser.c",
-			"node_modules",
-			"build",
+			"node_modules/",
+			"build/",
 		},
 		dynamic_preview_title = true,
 	},
