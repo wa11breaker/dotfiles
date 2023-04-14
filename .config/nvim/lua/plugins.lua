@@ -121,9 +121,9 @@ local plugins = {
 	{
 		'mfussenegger/nvim-dap',
 		dependencies = {
+			'jay-babu/mason-nvim-dap.nvim',
 			'rcarriga/nvim-dap-ui',
 			'williamboman/mason.nvim',
-			'jay-babu/mason-nvim-dap.nvim',
 			'leoluz/nvim-dap-go',
 		},
 		config = function() require "plugins/dap" end,
@@ -153,7 +153,8 @@ local plugins = {
 		config = function() require "plugins/telescope" end,
 	},
 	{
-		'nvim-telescope/telescope-fzf-native.nvim', build = 'make'
+		"nvim-telescope/telescope-fzf-native.nvim",
+		build = 'make'
 	},
 	{
 		"nvim-telescope/telescope-file-browser.nvim",

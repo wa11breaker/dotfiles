@@ -1,12 +1,11 @@
-require("mason").setup()
 require("mason-lspconfig").setup({
-	ensure_installed = { "sumneko_lua" }
+	 'lua_ls',
+	'gopls',
 })
 
 
 local on_attach = function(_, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-
 
 	vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
 	vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
@@ -34,15 +33,22 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require('lspconfig')
 
-lspconfig.sumneko_lua.setup {
-	capabilities = capabilities,
-	on_attach = on_attach,
+lspconfig.lua_ls.setup {
+    settings = {
+        Lua = {
+            diagnostics = {
+                 globals = { 'vim' }
+            }
+        }
+    }
 }
 
 lspconfig.gopls.setup {
 	on_attach = on_attach,
 	capabilities = capabilities,
 }
+
+lspconfig.pyright.setup {}
 
 require("flutter-tools").setup {
 	lsp = {
