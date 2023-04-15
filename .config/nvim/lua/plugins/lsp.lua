@@ -1,5 +1,5 @@
 require("mason-lspconfig").setup({
-	 'lua_ls',
+	'lua_ls',
 	'gopls',
 })
 
@@ -33,7 +33,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require('lspconfig')
 
-lspconfig.lua_ls.setup {
+lspconfig.sumneko_lua.setup {
     settings = {
         Lua = {
             diagnostics = {

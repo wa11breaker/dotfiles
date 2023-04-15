@@ -3,6 +3,9 @@ local opt = vim.opt
 opt.number = true
 opt.relativenumber = true
 
+-- Scroll offset
+vim.opt.scrolloff = 8
+
 -- Set highlight on search
 vim.o.hlsearch = false
 
