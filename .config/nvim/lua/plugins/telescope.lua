@@ -1,90 +1,39 @@
-local telescope = require "telescope"
-local actions = require "telescope.actions"
-local actions_layout = require "telescope.actions.layout"
-
-telescope.setup {
-	defaults = {
-		multi_icon = "",
-		layout_strategy = "flex",
-		scroll_strategy = "cycle",
-		selection_strategy = "reset",
-		winblend = 0,
-		layout_config = {
-			vertical = {
-				mirror = true,
-			},
-			center = {
-				mirror = true,
-			},
-		},
-		hl_result_eol = false,
-		preview = {
-			msg_bg_fillchar = " ",
-		},
-		history = {
-			cycle_wrap = true,
-		},
-		cache = false,
-		mappings = {
-			i = {
-				["<C-s>"] = actions.cycle_previewers_next,
-				["<C-a>"] = actions.cycle_previewers_prev,
-				["<C-Down>"] = actions.cycle_history_next,
-				["<C-Up>"] = actions.cycle_history_prev,
-				["<C-h>"] = actions_layout.toggle_preview,
-				["<C-q>"] = actions.smart_send_to_qflist + actions.open_qflist,
-				["<a-q>"] = false,
-				["<c-c>"] = function()
-					vim.cmd [[stopinsert]]
-				end,
-				["<esc>"] = actions.close,
-			},
-		},
-		file_ignore_patterns = {
-			"src/parser.c",
-			"node_modules/",
-			"build/",
-		},
-		dynamic_preview_title = true,
-	},
-	pickers = {
-		find_files = {
-			theme = "dropdown",
-			previewer = false,
-		},
-		file_browser = {
-			theme = "dropdown",
-			previewer = false,
-		},
-		git_files = {
-			theme = "dropdown",
-			previewer = false,
-		},
-		buffers = {
-			sort_mru = true,
-			theme = "dropdown",
-			previewer = false,
-			mappings = {
-				i = { ["<c-d>"] = actions.delete_buffer },
-			},
-		},
-		man_pages = { sections = { "2", "3" } },
-		lsp_references = { path_display = { "shorten" } },
-		lsp_code_actions = { theme = "dropdown" },
-		current_buffer_fuzzy_find = { theme = "dropdown" },
-	},
+require("telescope").setup({
+	-- defaults = require("telescope.themes").get_dropdown({
+	-- 	file_sorter = require("telescope.sorters").get_fzy_sorter,
+	-- 	file_previewer = require("telescope.previewers").vim_buffer_cat.new,
+	-- 	grep_previewer = require("telescope.previewers").vim_buffer_vimgrep.new,
+	-- 	qflist_previewer = require("telescope.previewers").vim_buffer_qflist.new,
+	-- 	mappings = {
+	-- 		i = {
+	-- 			["<C-x>"] = false,
+	-- 		},
+	-- 	},
+	-- 	file_ignore_patterns = {
+	-- 		"src/parser.c",
+	-- 		"node_modules/",
+	-- 		"build/",
+	-- 	},
+	-- 	dynamic_preview_title = true,
+	-- 	pickers = {
+	-- 		find_files = {
+	-- 			theme = "dropdown",
+	-- 			previewer = false,
+	-- 		},
+	-- 	},
+	-- }),
 	extensions = {
-		["ui-select"] = {
-			require("telescope.themes").get_dropdown {},
+		fzy_native = {
+			override_generic_sorter = false,
+			override_file_sorter = true,
 		},
-		-- ["fzf"] = {
-		-- 	fuzzy = true,
-		-- 	override_generic_sorter = true,
-		-- 	override_file_sorter = true,
-		-- 	case_mode = "smart_case",
-		-- },
+		["ui-select"] = {
+			specific_opts = {
+				codeactions = false,
+			}
+		},
 	},
-}
+})
 
-telescope.load_extension "ui-select"
--- telescope.load_extension "fzf"
+-- require("telescope").load_extension("fzf")
+require("telescope").load_extension("ui-select")

@@ -1,8 +1,6 @@
-require("mason-lspconfig").setup({
-	'lua_ls',
-	'gopls',
-})
-
+require("mason-lspconfig").setup {
+	ensure_installed = { "lua_ls", "gopls" },
+}
 
 local on_attach = function(_, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -33,14 +31,17 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require('lspconfig')
 
+-- lspconfig.lua_ls.setup {}
 lspconfig.sumneko_lua.setup {
-    settings = {
-        Lua = {
-            diagnostics = {
-                 globals = { 'vim' }
-            }
-        }
-    }
+	settings = {
+		Lua = {
+			diagnostics = {
+				globals = { 'vim' }
+			}
+		}
+	},
+	on_attach = on_attach,
+	capabilities = capabilities,
 }
 
 lspconfig.gopls.setup {

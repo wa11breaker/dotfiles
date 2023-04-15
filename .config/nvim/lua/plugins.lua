@@ -149,16 +149,19 @@ local plugins = {
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-telescope/telescope-ui-select.nvim",
+			"telescope-fzf-native.nvim",
 		},
 		config = function() require "plugins/telescope" end,
 	},
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
-		build = 'make'
+		build = "make",
 	},
 	{
 		"nvim-telescope/telescope-file-browser.nvim",
-		version = "*",
+	},
+	{
+		"ThePrimeagen/harpoon",
 	},
 
 	-- bars
@@ -211,6 +214,10 @@ local plugins = {
 		version = "*",
 		config = function() require "plugins/which-key" end,
 	},
+	{
+		"jiaoshijie/undotree",
+		config = function() require "plugins/undotree" end,
+	}
 }
 
 local options = {
