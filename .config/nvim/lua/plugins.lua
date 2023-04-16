@@ -23,6 +23,7 @@ local plugins = {
 	},
 
 	-- theming
+	{ "catppuccin/nvim", name = "catppuccin" },
 	{
 		"navarasu/onedark.nvim",
 		config = function() require "plugins/color" end,

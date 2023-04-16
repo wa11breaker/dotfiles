@@ -28,7 +28,7 @@ vim.keymap.set('n', '<leader>b', dap.toggle_breakpoint)
 vim.keymap.set('n', '<leader>B', function()
 	dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
 end)
-vim.keymap.set('n', '<leader>dui', "<cmd>:lua require('dapui').toggle() <CR>", { desc =  'Toggle dap ui'})
+vim.keymap.set('n', '<leader>t', "<cmd>:lua require('dapui').toggle() <CR>", { desc = 'Toggle dap ui' })
 
 -- Dap UI setup
 -- For more information, see |:help nvim-dap-ui|
