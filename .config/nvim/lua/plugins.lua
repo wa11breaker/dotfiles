@@ -23,22 +23,9 @@ local plugins = {
 	},
 
 	-- theming
-	{ "catppuccin/nvim", name = "catppuccin" },
 	{
-		"navarasu/onedark.nvim",
+		"sainnhe/gruvbox-material",
 		config = function() require "plugins/color" end,
-	},
-	{
-		"aktersnurra/no-clown-fiesta.nvim",
-	},
-	{
-		"ayu-theme/ayu-vim",
-	},
-	{
-		'rebelot/kanagawa.nvim'
-	},
-	{
-		'sainnhe/everforest'
 	},
 
 	-- essentials
