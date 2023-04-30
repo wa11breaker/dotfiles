@@ -57,9 +57,9 @@ map({ "n", "v" }, "<leader>d", [["_d]])
 
 -- Easier window switching with leader + Number
 for i = 1, 6 do
-	local lhs = "<Leader>" .. i
-	local rhs = i .. "<C-W>w"
-	map("n", lhs, rhs, { desc = "Move to Window " .. i })
+    local lhs = "<Leader>" .. i
+    local rhs = i .. "<C-W>w"
+    map("n", lhs, rhs, { desc = "Move to Window " .. i })
 end
 
 -- Terminal
