@@ -1,4 +1,5 @@
 local ts = require 'telescope'
+local actions = require("telescope.actions")
 
 -- Setup.
 ts.setup({
@@ -6,7 +7,8 @@ ts.setup({
         sort_mru = true,
         sorting_strategy = 'ascending',
         layout_config = {
-            prompt_position = 'top'
+            prompt_position = 'top',
+            preview_width = 0.4,
         },
         border = true,
         -- borderchars = {
@@ -21,6 +23,19 @@ ts.setup({
         hl_result_eol = true,
         results_title = "",
         winblend = 0,
-        wrap_results = true
+        wrap_results = true,
+        mappings = {
+            i = {
+                ["<esc>"] = actions.close,
+            },
+        },
+    },
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_dropdown {}
+
+        }
     }
 })
+
+require("telescope").load_extension("ui-select")
