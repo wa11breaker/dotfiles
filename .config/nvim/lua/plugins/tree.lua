@@ -1,26 +1,3 @@
--- -- disable netrw at the very start of your init.lua (strongly advised)
--- vim.g.loaded_netrw = 1
--- vim.g.loaded_netrwPlugin = 1
---
--- require("nvim-tree").setup({
--- 	update_focused_file = {
--- 		enable = true,
--- 		update_cwd = true,
--- 	},
--- 	hijack_directories = {
--- 		enable = true,
--- 		auto_open = false,
--- 	},
--- 	disable_netrw = false,
--- 	hijack_netrw = false,
--- 	renderer = {
--- 		root_folder_label = function(path)
--- 			local project = vim.fn.fnamemodify(path, ":t")
--- 			return string.upper(project)
--- 		end,
--- 	}
--- })
---
 -- Nvim-Tree.lua advises to do this at the start.
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
@@ -35,9 +12,9 @@ local renderer = {
     indent_markers = {
         enable = true,
         inline_arrows = true,
-        icons = {
-            corner = '╰'
-        }
+        -- icons = {
+        --     corner = '╰'
+        -- }
     },
     icons = {
         git_placement = 'after',
@@ -55,14 +32,26 @@ local renderer = {
                 symlink_open = '󰉒 ',
             },
             git = {
-                deleted = '',
-                unstaged = '',
-                untracked = '',
-                staged = '',
-                unmerged = '',
-            }
-        }
-    }
+                unstaged = "M",
+                staged = "A",
+                unmerged = "UM",
+                renamed = "R",
+                untracked = 'U',
+                deleted = 'D',
+                ignored = "I",
+            },
+        },
+    },
+    diagnostics = {
+        enable = true,
+        show_on_dirs = true,
+        icons = {
+            hint = "",
+            info = "",
+            warning = "",
+            error = "",
+        },
+    },
 }
 
 local view = {

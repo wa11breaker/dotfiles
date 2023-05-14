@@ -6,16 +6,7 @@ ts.setup({
     defaults = {
         sort_mru = true,
         sorting_strategy = 'ascending',
-        layout_config = {
-            prompt_position = 'top',
-            preview_width = 0.4,
-        },
         border = true,
-        -- borderchars = {
-        -- 	prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
-        -- 	results = { " " },
-        -- 	preview = { " " },
-        -- },
         multi_icon = '',
         entry_prefix = '   ',
         prompt_prefix = '   ',
@@ -27,7 +18,15 @@ ts.setup({
         mappings = {
             i = {
                 ["<esc>"] = actions.close,
+                ['<C-p>'] = require('telescope.actions.layout').toggle_preview
             },
+        },
+        preview = {
+            hide_on_startup = true -- hide previewer when picker starts
+        },
+        layout_config = {
+            horizontal = { width = 0.6 },
+            prompt_position = 'top',
         },
     },
     extensions = {

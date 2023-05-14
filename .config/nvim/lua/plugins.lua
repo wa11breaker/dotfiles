@@ -27,6 +27,9 @@ local plugins = {
         "sainnhe/gruvbox-material",
         config = function() require "plugins/color" end,
     },
+    {
+        "olimorris/onedarkpro.nvim",
+    },
 
     -- essentials
     {
