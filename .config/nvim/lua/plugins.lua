@@ -28,7 +28,10 @@ local plugins = {
         config = function() require "plugins/color" end,
     },
     {
-        "olimorris/onedarkpro.nvim",
+        "navarasu/onedark.nvim",
+    },
+    {
+        "AlexvZyl/nordic.nvim",
     },
 
     -- essentials

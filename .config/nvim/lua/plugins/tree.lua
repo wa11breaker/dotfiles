@@ -10,7 +10,7 @@ local renderer = {
     end,
     indent_width = 2,
     indent_markers = {
-        enable = true,
+        enable = false,
         inline_arrows = true,
         -- icons = {
         --     corner = '╰'
@@ -40,16 +40,16 @@ local renderer = {
                 deleted = 'D',
                 ignored = "I",
             },
-        },
-    },
-    diagnostics = {
-        enable = true,
-        show_on_dirs = true,
-        icons = {
-            hint = "",
-            info = "",
-            warning = "",
-            error = "",
+            -- diagnostics = {
+            --     enable = true,
+            --     show_on_dirs = true,
+            --     icons = {
+            --         hint = "",
+            --         info = "",
+            --         warning = "",
+            --         error = "",
+            --     },
+            -- },
         },
     },
 }
