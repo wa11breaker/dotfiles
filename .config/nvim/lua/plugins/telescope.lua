@@ -24,6 +24,11 @@ ts.setup({
         preview = {
             hide_on_startup = true -- hide previewer when picker starts
         },
+        pickers = {
+            colorscheme = {
+                enable_preview = true
+            }
+        },
         layout_config = {
             horizontal = { width = 0.6 },
             prompt_position = 'top',

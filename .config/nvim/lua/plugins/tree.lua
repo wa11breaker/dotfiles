@@ -8,13 +8,11 @@ local renderer = {
         local project = vim.fn.fnamemodify(path, ":t")
         return string.upper(project)
     end,
+    highlight_git = true,
     indent_width = 2,
     indent_markers = {
         enable = false,
         inline_arrows = true,
-        -- icons = {
-        --     corner = '╰'
-        -- }
     },
     icons = {
         git_placement = 'after',
@@ -77,10 +75,9 @@ local view = {
 
 -- Setup.
 require 'nvim-tree'.setup {
-    hijack_cursor = true,
-    sync_root_with_cwd = true,
     view = view,
     git = {
+        enable = true,
         ignore = false
     },
     renderer = renderer,

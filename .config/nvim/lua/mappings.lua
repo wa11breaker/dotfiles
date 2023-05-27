@@ -25,12 +25,6 @@ map("n", "<C-Down>", "<cmd>resize +2<CR>")
 map("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
 map("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
 
--- hjkl navigation in insert mode
-map("i", "<C-h>", "<Left>", opts)
-map("i", "<C-j>", "<Down>", opts)
-map("i", "<C-k>", "<Up>", opts)
-map("i", "<C-l>", "<Right>", opts)
-
 -- Join lines without moving the curser to the end
 map("n", "J", "mzJ`z")
 
@@ -57,9 +51,9 @@ map({ "n", "v" }, "<leader>d", [["_d]])
 
 -- Easier window switching with leader + Number
 for i = 1, 6 do
-    local lhs = "<Leader>" .. i
-    local rhs = i .. "<C-W>w"
-    map("n", lhs, rhs, { desc = "Move to Window " .. i })
+	local lhs = "<Leader>" .. i
+	local rhs = i .. "<C-W>w"
+	map("n", lhs, rhs, { desc = "Move to Window " .. i })
 end
 
 -- Terminal

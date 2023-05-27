@@ -24,14 +24,9 @@ local plugins = {
 
     -- theming
     {
-        "sainnhe/gruvbox-material",
+        "RRethy/nvim-base16",
+        priority = 1000, -- Ensure it loads first
         config = function() require "plugins/color" end,
-    },
-    {
-        "navarasu/onedark.nvim",
-    },
-    {
-        "AlexvZyl/nordic.nvim",
     },
 
     -- essentials
@@ -41,23 +36,19 @@ local plugins = {
         event = "BufEnter",
         config = function() require("mini.trailspace").setup {} end,
     },
-
     {
         "windwp/nvim-autopairs",
         version = "*",
         config = function() require("nvim-autopairs").setup {} end,
     },
-
     {
         "kyazdani42/nvim-web-devicons",
         version = "*",
     },
-
     {
         "folke/zen-mode.nvim",
         version = "*",
     },
-
     {
         "lukas-reineke/indent-blankline.nvim",
         version = "*",
@@ -72,13 +63,11 @@ local plugins = {
         config = function() require "plugins/treesitter" end,
         build = ":TSUpdate",
     },
-
     {
         "nvim-treesitter/nvim-treesitter-textobjects",
         version = "*",
         event = "BufEnter",
     },
-
     {
         "nkrkv/nvim-treesitter-rescript",
         version = "*",
@@ -196,7 +185,6 @@ local plugins = {
         version = "*",
         build = function() vim.fn["mkdp#util#install"]() end,
     },
-
     {
         "mzlogin/vim-markdown-toc",
         version = "*",

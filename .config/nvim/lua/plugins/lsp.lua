@@ -44,12 +44,21 @@ lspconfig.sumneko_lua.setup {
     capabilities = capabilities,
 }
 
-lspconfig.gopls.setup {
-    on_attach = on_attach,
-    capabilities = capabilities,
-}
 
-lspconfig.pyright.setup {}
+-- Check if gopls executable exists
+local gopls_exists = vim.fn.executable('gopls') == 1
+if gopls_exists then
+    lspconfig.gopls.setup {
+        on_attach = on_attach,
+        capabilities = capabilities,
+    }
+end
+
+-- Check if pyright executable exists
+local pyright_exists = vim.fn.executable('pyright') == 1
+if pyright_exists then
+    lspconfig.pyright.setup {}
+end
 
 require("flutter-tools").setup {
     lsp = {
