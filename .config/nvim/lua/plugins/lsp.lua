@@ -60,6 +60,16 @@ if pyright_exists then
     lspconfig.pyright.setup {}
 end
 
+-- JavaScript/Typescript
+local tsserver_exists = vim.fn.executable('tsserver') == 1
+if tsserver_exists then
+    lspconfig.tsserver.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+    })
+end
+
+
 require("flutter-tools").setup {
     lsp = {
         on_attach = on_attach,

@@ -15,6 +15,9 @@ ts.setup({
         results_title = "",
         winblend = 0,
         wrap_results = true,
+        file_ignore_patterns = {
+            "build/", "^node_modules/", "^./.git/",
+        },
         mappings = {
             i = {
                 ["<esc>"] = actions.close,

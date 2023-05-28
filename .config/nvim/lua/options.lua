@@ -50,7 +50,7 @@ vim.o.timeoutlen = 500
 vim.o.completeopt = 'menuone,noselect'
 
 -- NOTE: You should make sure your terminal supports this
-vim.o.termguicolors = true
+-- vim.o.termguicolors = true
 
 -- make windows the samue width when closing one
 opt.equalalways = true
