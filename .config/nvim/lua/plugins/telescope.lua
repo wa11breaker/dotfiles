@@ -16,7 +16,7 @@ ts.setup({
         winblend = 0,
         wrap_results = true,
         file_ignore_patterns = {
-            "build/", "^node_modules/", "^./.git/",
+            "build/", "node_modules/", ".git/",
         },
         mappings = {
             i = {

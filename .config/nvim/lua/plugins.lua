@@ -25,6 +25,11 @@ local plugins = {
     -- theming
     { 'aktersnurra/no-clown-fiesta.nvim' },
     {
+        "rktjmp/lush.nvim",
+        branch = "main",
+        lazy = false,
+    },
+    {
         'AlexvZyl/nordic.nvim',
         priority = 1000, -- Ensure it loads first
         config = function() require "plugins/color" end,

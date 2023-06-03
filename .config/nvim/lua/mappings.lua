@@ -51,9 +51,9 @@ map({ "n", "v" }, "<leader>d", [["_d]])
 
 -- Easier window switching with leader + Number
 for i = 1, 6 do
-	local lhs = "<Leader>" .. i
-	local rhs = i .. "<C-W>w"
-	map("n", lhs, rhs, { desc = "Move to Window " .. i })
+    local lhs = "<Leader>" .. i
+    local rhs = i .. "<C-W>w"
+    map("n", lhs, rhs, { desc = "Move to Window " .. i })
 end
 
 -- Terminal
@@ -69,6 +69,7 @@ map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
 map("n", "<leader><tab>q", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 
 map('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', opts)
+map('n', '<esc>', '<cmd>NvimTreeClose<cr>', opts)
 
 -- Telescope
 map('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })

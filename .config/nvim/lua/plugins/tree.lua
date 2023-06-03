@@ -2,7 +2,6 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-
 local renderer = {
     root_folder_label = function(path)
         local project = vim.fn.fnamemodify(path, ":t")
@@ -118,5 +117,4 @@ require 'nvim-tree'.setup {
         enable = true,
         update_cwd = true,
     },
-
 }
