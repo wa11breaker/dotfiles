@@ -23,8 +23,9 @@ local plugins = {
     },
 
     -- theming
+    { 'aktersnurra/no-clown-fiesta.nvim' },
     {
-        "RRethy/nvim-base16",
+        'AlexvZyl/nordic.nvim',
         priority = 1000, -- Ensure it loads first
         config = function() require "plugins/color" end,
     },
