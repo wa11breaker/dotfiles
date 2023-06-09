@@ -1,7 +1,4 @@
 vim.g.base16colorspace = 256
-require 'nordic'.setup({
-    telescope = {
-        style = 'classic', -- `classic`, `flat`.
-    },
-})
-require 'nordic'.load()
+
+require('github-theme').setup({})
+vim.cmd('colorscheme github_dark')

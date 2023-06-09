@@ -24,6 +24,7 @@ local plugins = {
 
     -- theming
     { 'aktersnurra/no-clown-fiesta.nvim' },
+    { 'projekt0n/github-nvim-theme' },
     {
         "rktjmp/lush.nvim",
         branch = "main",

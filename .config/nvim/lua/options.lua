@@ -55,5 +55,5 @@ vim.o.completeopt = 'menuone,noselect'
 -- make windows the samue width when closing one
 opt.equalalways = true
 
--- Allows neovom to send the Terminal details of the current window, instead of just getting 'v'
+-- Allows neovom to send the Terminal details of the current window
 opt.title = true
