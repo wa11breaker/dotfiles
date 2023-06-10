@@ -24,14 +24,10 @@ local plugins = {
 
     -- theming
     { 'aktersnurra/no-clown-fiesta.nvim' },
-    { 'projekt0n/github-nvim-theme' },
     {
-        "rktjmp/lush.nvim",
+        "RRethy/nvim-base16",
         branch = "main",
         lazy = false,
-    },
-    {
-        'AlexvZyl/nordic.nvim',
         priority = 1000, -- Ensure it loads first
         config = function() require "plugins/color" end,
     },
@@ -66,6 +62,9 @@ local plugins = {
     {
         "nvim-treesitter/nvim-treesitter",
         version = "*",
+        dependencies = {
+            'nvim-treesitter/nvim-treesitter-textobjects',
+        },
         event = "BufEnter",
         config = function() require "plugins/treesitter" end,
         build = ":TSUpdate",
@@ -144,8 +143,11 @@ local plugins = {
         config = function() require "plugins/telescope" end,
     },
     {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = function()
+            return vim.fn.executable 'make' == 1
+        end,
     },
     {
         "nvim-telescope/telescope-file-browser.nvim",
