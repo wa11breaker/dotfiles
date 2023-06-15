@@ -24,6 +24,7 @@ local plugins = {
 
     -- theming
     { 'aktersnurra/no-clown-fiesta.nvim' },
+    { "catppuccin/nvim",                 as = "catppuccin" },
     {
         "RRethy/nvim-base16",
         branch = "main",

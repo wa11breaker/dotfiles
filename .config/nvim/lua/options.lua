@@ -57,3 +57,5 @@ opt.equalalways = true
 
 -- Allows neovom to send the Terminal details of the current window
 opt.title = true
+
+vim.wo.fillchars = 'eob: '
