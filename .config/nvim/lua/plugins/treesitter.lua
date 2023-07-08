@@ -22,6 +22,7 @@ plugin.setup {
         "markdown_inline",
         "scss",
         "yaml",
+        "ruby"
     },
     textobjects = {
         select = {

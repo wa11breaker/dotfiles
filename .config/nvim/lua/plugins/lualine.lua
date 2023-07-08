@@ -5,8 +5,9 @@ local mode = {
 
 local filename = {
     'filename',
+    show_filename_only = false,
     padding = 1,
-    path = 0,
+    path = 1,
     symbols = { modified = '*', readonly = ' ', unnamed = '' }
 }
 
@@ -70,7 +71,7 @@ require('lualine').setup {
 
     sections = {
         lualine_a = { mode },
-        lualine_b = { branch },
+        lualine_b = { branch, },
         lualine_c = { filename, diagnostics },
         lualine_x = { encoding },
         lualine_y = { filetype, 'searchcount', progress },

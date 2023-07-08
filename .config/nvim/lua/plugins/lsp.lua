@@ -1,3 +1,4 @@
+require('mason').setup()
 require("mason-lspconfig").setup {
     ensure_installed = { "lua_ls", "gopls" },
 }
@@ -69,6 +70,14 @@ if tsserver_exists then
     })
 end
 
+-- Ruby on rails
+local solargraph_exist = vim.fn.executable('solargraph') == 1
+if solargraph_exist then
+    lspconfig.solargraph.setup({
+        capabilities = capabilities,
+        on_attach = on_attach,
+    })
+end
 
 require("flutter-tools").setup {
     lsp = {
