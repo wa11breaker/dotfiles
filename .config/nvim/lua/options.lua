@@ -4,7 +4,7 @@ local g = vim.g
 
 -- line numbers
 opt.number = true
-opt.relativenumber = false
+opt.relativenumber = true
 
 -- tabs & indentation
 opt.tabstop = 4

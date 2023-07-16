@@ -27,12 +27,13 @@ local plugins = {
     { "catppuccin/nvim",                 as = "catppuccin" },
     { 'sainnhe/gruvbox-material' },
     {
-        "RRethy/nvim-base16",
+        'sainnhe/everforest',
         branch = "main",
         lazy = false,
         priority = 1000, -- Ensure it loads first
         config = function() require "plugins/color" end,
     },
+    { "RRethy/nvim-base16" },
 
     -- essentials
     {

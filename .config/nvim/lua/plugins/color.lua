@@ -1,10 +1,28 @@
--- require('base16-colorscheme').with_config { telescope = false }
-
-
--- Enable true color support
-vim.o.termguicolors = true
-
-vim.o.background = "dark"
-vim.cmd([[colorscheme gruvbox-material]])
-
--- vim.cmd('colorscheme base16-onedark')
+vim.g.everforest_diagnostic_line_highlight = 1
+vim.cmd('colorscheme everforest')
+vim.fn.sign_define({
+    {
+        name = 'DiagnosticSignError',
+        text = '',
+        texthl = 'DiagnosticSignError',
+        linehl = 'ErrorLine',
+    },
+    {
+        name = 'DiagnosticSignWarn',
+        text = '',
+        texthl = 'DiagnosticSignWarn',
+        linehl = 'WarningLine',
+    },
+    {
+        name = 'DiagnosticSignInfo',
+        text = '',
+        texthl = 'DiagnosticSignInfo',
+        linehl = 'InfoLine',
+    },
+    {
+        name = 'DiagnosticSignHint',
+        text = '',
+        texthl = 'DiagnosticSignHint',
+        linehl = 'HintLine',
+    },
+})
