@@ -1,6 +1,6 @@
 require('mason').setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { "lua_ls", "gopls" },
+    ensure_installed = { "lua_ls" },
 }
 
 local on_attach = function(_, bufnr)
@@ -14,13 +14,14 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
     vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>ds', '<cmd>Telescope lsp_document_symbols<cr>', bufopts)
 
     -- format on save
     vim.api.nvim_create_autocmd('BufWritePre', {
-        group = vim.api.nvim_create_augroup('LspFormatting', { clear = true }),
+        group = 'LspFormatting',
+        clear = true,
         buffer = bufnr,
         callback = function()
             vim.lsp.buf.format()
@@ -32,7 +33,6 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local lspconfig = require('lspconfig')
 
--- lspconfig.lua_ls.setup {}
 lspconfig.sumneko_lua.setup {
     settings = {
         Lua = {
@@ -45,10 +45,8 @@ lspconfig.sumneko_lua.setup {
     capabilities = capabilities,
 }
 
-
 -- Check if gopls executable exists
-local gopls_exists = vim.fn.executable('gopls') == 1
-if gopls_exists then
+if vim.fn.executable('gopls') == 1 then
     lspconfig.gopls.setup {
         on_attach = on_attach,
         capabilities = capabilities,
@@ -56,14 +54,12 @@ if gopls_exists then
 end
 
 -- Check if pyright executable exists
-local pyright_exists = vim.fn.executable('pyright') == 1
-if pyright_exists then
+if vim.fn.executable('pyright') == 1 then
     lspconfig.pyright.setup {}
 end
 
 -- JavaScript/Typescript
-local tsserver_exists = vim.fn.executable('tsserver') == 1
-if tsserver_exists then
+if vim.fn.executable('tsserver') == 1 then
     lspconfig.tsserver.setup({
         capabilities = capabilities,
         on_attach = on_attach,
@@ -71,11 +67,13 @@ if tsserver_exists then
 end
 
 -- Ruby on rails
-local solargraph_exist = vim.fn.executable('solargraph') == 1
-if solargraph_exist then
+if vim.fn.executable('solargraph') == 1 then
     lspconfig.solargraph.setup({
         capabilities = capabilities,
         on_attach = on_attach,
+        flags = { debounce_text_changes = 300 },
+        single_file_support = true, -- Allow LSP to work in standalone Ruby scripts
+        settings = { solargraph = { diagnostics = false } },
     })
 end
 
@@ -92,3 +90,18 @@ require("flutter-tools").setup {
         end,
     }
 }
+
+-- Standard Ruby LSP is not yet part of nvim-lspconfig, so we need to start it
+-- ourselves.
+local lsp = vim.lsp
+
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = "ruby",
+    callback = function()
+        lsp.start({
+            name = "standardrb",
+            cmd = { "standardrb", "--lsp" },
+        })
+        vim.keymap.set("n", "'f", lsp.buf.format, { buffer = true })
+    end,
+})
