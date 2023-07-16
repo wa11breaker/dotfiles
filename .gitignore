@@ -5,3 +5,5 @@
 !.gitignore
 !.config
 !.scripts
+!.README.md
+!screenshot.png
