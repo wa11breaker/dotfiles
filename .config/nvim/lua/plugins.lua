@@ -23,6 +23,7 @@ local plugins = {
     },
 
     -- theming
+    { 'xiyaowong/transparent.nvim' },
     { 'aktersnurra/no-clown-fiesta.nvim' },
     { "catppuccin/nvim",                 as = "catppuccin" },
     { 'sainnhe/gruvbox-material' },

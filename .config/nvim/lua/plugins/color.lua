@@ -1,5 +1,6 @@
 vim.g.everforest_diagnostic_line_highlight = 1
 vim.cmd('colorscheme everforest')
+-- vim.cmd('colorscheme gruvbox-material')
 vim.fn.sign_define({
     {
         name = 'DiagnosticSignError',
