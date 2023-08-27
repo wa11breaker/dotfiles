@@ -17,16 +17,6 @@ local on_attach = function(_, bufnr)
     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
     vim.keymap.set('n', '<leader>ds', '<cmd>Telescope lsp_document_symbols<cr>', bufopts)
-
-    -- format on save
-    vim.api.nvim_create_autocmd('BufWritePre', {
-        group = 'LspFormatting',
-        clear = true,
-        buffer = bufnr,
-        callback = function()
-            vim.lsp.buf.format()
-        end
-    })
 end
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()

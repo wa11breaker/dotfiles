@@ -36,6 +36,7 @@ opt.splitbelow = true     -- split horizontal window to the bottom
 
 opt.iskeyword:append("-") -- consider string-string as whole word
 opt.updatetime = 500      -- Trigger CursorHold event faster.
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 
 opt.fillchars = "eob: "   -- remove all ~ symbols
 
@@ -53,3 +54,5 @@ opt.laststatus = 0 -- removing statusline
 -- Save undo history
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
+
+vim.o.completeopt = 'menuone,noselect' -- Set completeopt to have a better completion experience

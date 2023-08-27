@@ -24,8 +24,6 @@ local plugins = {
 
     -- theming
     { 'xiyaowong/transparent.nvim' },
-    { 'aktersnurra/no-clown-fiesta.nvim' },
-    { "catppuccin/nvim",                 as = "catppuccin" },
     { 'sainnhe/gruvbox-material' },
     {
         'sainnhe/everforest',
@@ -34,7 +32,6 @@ local plugins = {
         priority = 1000, -- Ensure it loads first
         config = function() require "plugins/color" end,
     },
-    { "RRethy/nvim-base16" },
 
     -- essentials
     {
@@ -142,16 +139,16 @@ local plugins = {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope-ui-select.nvim",
-            "telescope-fzf-native.nvim",
+            "nvim-telescope/telescope-media-files.nvim",
+            {
+                'nvim-telescope/telescope-fzf-native.nvim',
+                build = 'make',
+                cond = function()
+                    return vim.fn.executable 'make' == 1
+                end,
+            },
         },
         config = function() require "plugins/telescope" end,
-    },
-    {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-            return vim.fn.executable 'make' == 1
-        end,
     },
     {
         "nvim-telescope/telescope-file-browser.nvim",
