@@ -83,16 +83,6 @@ local view = {
     cursorline = false,
     hide_root_folder = false,
     signcolumn = 'no',
-    mappings = {
-        list = {
-            -- Allow moving out of the explorer.
-            { key = "<C-i>", action = "toggle_file_info" },
-            { key = "<C-k>", action = "" },
-            { key = "[",     action = "dir_up" },
-            { key = "]",     action = "cd" },
-            { key = "<Tab>", action = "edit" }
-        }
-    },
     -- width = {
     --     max = 40,
     --     min = 40,

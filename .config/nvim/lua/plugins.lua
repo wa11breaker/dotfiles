@@ -24,10 +24,11 @@ local plugins = {
 
     -- theming
     { 'xiyaowong/transparent.nvim' },
+    { 'rebelot/kanagawa.nvim' },
     { 'sainnhe/gruvbox-material' },
     {
         'sainnhe/everforest',
-        branch = "main",
+        branch = "master",
         lazy = false,
         priority = 1000, -- Ensure it loads first
         config = function() require "plugins/color" end,
@@ -86,7 +87,11 @@ local plugins = {
         dependencies = {
             'williamboman/mason.nvim',
             'williamboman/mason-lspconfig.nvim',
-            { 'j-hui/fidget.nvim', opts = {} },
+            {
+                'j-hui/fidget.nvim',
+                tag = "legacy",
+                opts = {},
+            },
         },
         config = function() require "plugins/lsp" end,
     },
@@ -140,16 +145,17 @@ local plugins = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope-ui-select.nvim",
             "nvim-telescope/telescope-media-files.nvim",
-            {
-                'nvim-telescope/telescope-fzf-native.nvim',
-                build = 'make',
-                cond = function()
-                    return vim.fn.executable 'make' == 1
-                end,
-            },
         },
         config = function() require "plugins/telescope" end,
     },
+    {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+        cond = function()
+            return vim.fn.executable 'make' == 1
+        end,
+    },
+
     {
         "nvim-telescope/telescope-file-browser.nvim",
     },
@@ -217,7 +223,7 @@ local options = {
         lazy = false,
         version = "*",
     },
-    lockfile = "~/.config/nvim/lazy-lock.json", -- FIXME: It would be great to have it under nix
+    -- lockfile = "~/.config/nvim/lazy-lock.json",
 }
 
 lazy.setup(plugins, options)
