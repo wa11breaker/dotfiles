@@ -23,7 +23,10 @@ local plugins = {
     },
 
     -- theming
-    { 'xiyaowong/transparent.nvim' },
+    {
+        'xiyaowong/transparent.nvim',
+        config = function() return "plugins/transparent" end
+    },
     { 'rebelot/kanagawa.nvim' },
     { 'sainnhe/gruvbox-material' },
     {

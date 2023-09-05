@@ -32,8 +32,8 @@ map("n", "J", "mzJ`z")
 map("v", "<", "<gv")
 map("v", ">", ">gv")
 
--- Clear search with <esc>
-map({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+-- Clear search with leader h
+map({ "i", "n" }, "<leader>h", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
 -- Half page jumping and curser stays in the middle
 map("n", "<C-d>", "<C-d>zz")
