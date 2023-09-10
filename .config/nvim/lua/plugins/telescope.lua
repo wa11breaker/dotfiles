@@ -15,8 +15,15 @@ ts.setup({
         results_title = "",
         winblend = 0,
         wrap_results = true,
-        file_ignore_patterns = {
-            "build/", "node_modules/"
+        vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--hidden",
         },
         mappings = {
             i = {

@@ -1,3 +1,5 @@
-local plugin = require "which-key"
-
-plugin.setup {}
+-- local plugin = require "which-key"
+--
+-- plugin.setup {
+--     marks = false
+-- }
