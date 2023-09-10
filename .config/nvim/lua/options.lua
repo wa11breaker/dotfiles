@@ -20,7 +20,7 @@ opt.wrap = false
 opt.ignorecase = true
 opt.smartcase = true
 
-opt.background = "dark" -- colorschemes that can be light or dark will be made dark
+opt.background = "dark" -- color schemes that can be light or dark will be made dark
 opt.signcolumn = "yes"  -- show sign column so that text doesn't shift
 opt.termguicolors = true
 
@@ -35,7 +35,7 @@ opt.splitright = true     -- split vertical window to the right
 opt.splitbelow = true     -- split horizontal window to the bottom
 
 opt.iskeyword:append("-") -- consider string-string as whole word
-opt.updatetime = 500      -- Trigger CursorHold event faster.
+opt.updatetime = 500      -- Trigger Cursor Hold event faster.
 vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20"
 
 opt.fillchars = "eob: "   -- remove all ~ symbols
@@ -44,15 +44,17 @@ opt.pumheight = 8         -- cmp window height
 
 opt.scrolloff = 8         -- annoying scroll fix
 
--- presistent undo
+-- persistent undo
 opt.swapfile = false
 opt.backup = false
 opt.undofile = true
 
-opt.laststatus = 0 -- removing statusline
+opt.laststatus = 0 -- removing status line
 
 -- Save undo history
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 
-vim.o.completeopt = 'menuone,noselect' -- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect' -- Set complete opt to have a better completion experience
+vim.opt.spelllang = 'en_us'
+vim.opt.spell = true

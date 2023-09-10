@@ -25,7 +25,7 @@ map("n", "<C-Down>", "<cmd>resize +2<CR>")
 map("n", "<C-Left>", "<cmd>vertical resize -2<CR>")
 map("n", "<C-Right>", "<cmd>vertical resize +2<CR>")
 
--- Join lines without moving the curser to the end
+-- Join lines without moving the cursor to the end
 map("n", "J", "mzJ`z")
 
 -- Better indenting
@@ -33,9 +33,9 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Clear search with leader h
-map({ "i", "n" }, "<leader>h", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+map("n", "<leader>h", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
--- Half page jumping and curser stays in the middle
+-- Half page jumping and cursor stays in the middle
 map("n", "<C-d>", "<C-d>zz")
 map("n", "<C-u>", "<C-u>zz")
 
@@ -90,8 +90,7 @@ vim.keymap.set("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { nor
 -- Undotree
 vim.keymap.set('n', '<leader>u', require('undotree').toggle, { noremap = true, silent = true })
 
-
--- Diagnostic keymaps
+-- Diagnostic key maps
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 map('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 map('n', '<leader>i', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
