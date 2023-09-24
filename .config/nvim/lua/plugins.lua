@@ -27,8 +27,12 @@ local plugins = {
         'xiyaowong/transparent.nvim',
         config = function() return "plugins/transparent" end
     },
-    { 'rebelot/kanagawa.nvim' },
-    { 'sainnhe/gruvbox-material' },
+    {
+        'sainnhe/gruvbox-material',
+        enabled = true,
+        priority = 1000,
+
+    },
     {
         'sainnhe/everforest',
         branch = "master",
