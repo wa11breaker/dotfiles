@@ -28,17 +28,14 @@ local plugins = {
         config = function() return "plugins/transparent" end
     },
     {
-        'sainnhe/gruvbox-material',
-        enabled = true,
-        priority = 1000,
-
+        'Shatur/neovim-ayu',
+        config = function() require "plugins/color" end,
     },
     {
-        'sainnhe/everforest',
-        branch = "master",
-        lazy = false,
-        priority = 1000, -- Ensure it loads first
-        config = function() require "plugins/color" end,
+        'sainnhe/gruvbox-material',
+        -- enabled = true,
+        -- priority = 1000,
+        -- config = function() require "plugins/color" end,
     },
 
     -- essentials
@@ -151,7 +148,6 @@ local plugins = {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope-ui-select.nvim",
-            "nvim-telescope/telescope-media-files.nvim",
         },
         config = function() require "plugins/telescope" end,
     },
@@ -162,7 +158,6 @@ local plugins = {
             return vim.fn.executable 'make' == 1
         end,
     },
-
     {
         "nvim-telescope/telescope-file-browser.nvim",
     },
@@ -171,7 +166,6 @@ local plugins = {
     },
     {
         "kdheepak/lazygit.nvim",
-        -- optional for floating window border decoration
         dependencies = {
             "nvim-lua/plenary.nvim",
         },

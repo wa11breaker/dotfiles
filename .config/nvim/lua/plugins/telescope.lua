@@ -1,64 +1,45 @@
-local ts = require 'telescope'
+local telescope = require("telescope")
 local actions = require("telescope.actions")
 
--- Setup.
-ts.setup({
-    defaults = {
-        sort_mru = true,
-        sorting_strategy = 'ascending',
-        border = true,
-        multi_icon = '',
-        entry_prefix = '   ',
-        prompt_prefix = '   ',
-        selection_caret = '  ',
-        hl_result_eol = true,
-        results_title = "",
-        winblend = 0,
-        wrap_results = true,
-        vimgrep_arguments = {
-            "rg",
-            "--color=never",
-            "--no-heading",
-            "--with-filename",
-            "--line-number",
-            "--column",
-            "--smart-case",
-            "--hidden",
+telescope.setup({
+    extensions = {
+        fzf = {
+            fuzzy = true,                   -- false will only do exact matching
+            override_generic_sorter = true, -- override the generic sorter
+            override_file_sorter = true,    -- override the file sorter
+            case_mode = "smart_case",       -- or "ignore_case" or "respect_case" or "smart_case"
         },
+    },
+    defaults = {
         mappings = {
             i = {
                 ["<esc>"] = actions.close,
                 ['<C-p>'] = require('telescope.actions.layout').toggle_preview
             },
         },
-        preview = {
-            hide_on_startup = true -- hide previewer when picker starts
-        },
-        pickers = {
-            colorscheme = {
-                enable_preview = true
-            }
-        },
-        layout_config = {
-            horizontal = { width = 0.6 },
-            prompt_position = 'top',
+        file_ignore_patterns = {
+            ".git/",
+            "node_modules/",
+            ".svelte-kit/",
+            "package/",
+            "build/",
+            "coverage/",
+            ".next/",
+            ".turbo/",
         },
     },
-    extensions = {
-        ["ui-select"] = {
-            require("telescope.themes").get_dropdown {}
-
+    pickers = {
+        find_files = {
+            hidden = true,
+            disable_devicons = true,
+            -- Hide "./" sign on search result
+            find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
         },
-        ["media_files"] = {
-            -- filetypes whitelist
-            -- defaults to {"png", "jpg", "mp4", "webm", "pdf"}
-            filetypes = { "png", "webp", "jpg", "jpeg" },
-            -- find command (defaults to `fd`)
-            find_cmd = "rg"
-        }
-    }
+        buffers = {
+            sort_lastused = true,
+            sorter = require("telescope.sorters").get_substr_matcher(),
+        },
+    },
 })
-
-pcall(require('telescope').load_extension, 'fzf')
-require("telescope").load_extension("ui-select")
-require("telescope").load_extension("media_files")
+telescope.load_extension("fzf")
+telescope.load_extension("ui-select")

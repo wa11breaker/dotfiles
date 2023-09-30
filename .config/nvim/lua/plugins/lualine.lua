@@ -39,7 +39,6 @@ local filename_inactive = {
 
 local location = {
     'location',
-
 }
 
 local filetype = {
@@ -75,7 +74,7 @@ require('lualine').setup {
     sections = {
         lualine_a = { mode },
         lualine_b = { branch, },
-        lualine_c = { filename, diagnostics },
+        lualine_c = { diagnostics, filename },
         lualine_x = { encoding },
         lualine_y = { filetype, 'searchcount', progress },
         lualine_z = { location }
