@@ -24,6 +24,9 @@ local plugins = {
 
     -- theming
     {
+        "rebelot/kanagawa.nvim",
+    },
+    {
         'xiyaowong/transparent.nvim',
         config = function() return "plugins/transparent" end
     },
@@ -218,11 +221,6 @@ local plugins = {
     },
 
     -- misc
-    {
-        "folke/which-key.nvim",
-        version = "*",
-        config = function() require "plugins/which-key" end,
-    },
     {
         "jiaoshijie/undotree",
         config = function() require "plugins/undotree" end,
