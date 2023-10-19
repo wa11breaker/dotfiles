@@ -21,7 +21,7 @@ local encoding = {
     'encoding',
     fmt = function(str) return string.upper(str) end,
     padding = { left = 1, right = 1 },
-    separator = { left = "" },
+    separator = { left = "" },
 }
 
 local progress = {
@@ -43,12 +43,7 @@ local location = {
 
 local filetype = {
     'filetype',
-    separator = { left = "" },
-}
-
-local branch = {
-    'branch',
-    separator = { right = "" },
+    separator = { left = " " },
 }
 
 local function window()
@@ -62,10 +57,10 @@ auto_theme_custom.normal.c.bg = 'none'
 require('lualine').setup {
     options = {
         icons_enabled = true,
-        theme = auto_theme_custom,
-        -- section_separators = { left = '', right = '' }, --  
+        theme = "onedark",
         component_separators = { " ", " " },
-        section_separators = { left = "", right = "" },
+        -- section_separators = { left = '', right = '' }, --    
+        section_separators = { left = " ", right = " " },
         always_divide_middle = true,
         disabled_filetypes = { 'nvim-tree' },
         globalstatus = false,
@@ -73,10 +68,10 @@ require('lualine').setup {
 
     sections = {
         lualine_a = { mode },
-        lualine_b = { branch, },
-        lualine_c = { diagnostics, filename },
-        lualine_x = { encoding },
-        lualine_y = { filetype, 'searchcount', progress },
+        lualine_b = { "branch", diagnostics },
+        lualine_c = { filename },
+        lualine_x = { encoding, 'fileformat', filetype, 'searchcount' },
+        lualine_y = { progress },
         lualine_z = { location }
     },
 
@@ -98,7 +93,7 @@ require('lualine').setup {
                 },
             },
         },
-        lualine_x = { 'location' },
+        lualine_x = {},
         lualine_y = {},
         lualine_z = {}
     },

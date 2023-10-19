@@ -16,42 +16,34 @@ vim.opt.rtp:prepend(lazypath)
 local lazy = require "lazy"
 
 local plugins = {
-    -- stdlib
+    -- Standard Library
     {
         "nvim-lua/plenary.nvim",
         version = "*",
     },
 
-    -- theming
+    -- Theming
     {
-        "rebelot/kanagawa.nvim",
-    },
-    {
-        'xiyaowong/transparent.nvim',
-        config = function() return "plugins/transparent" end
-    },
-    {
-        'Shatur/neovim-ayu',
+        "morhetz/gruvbox",
+        enabled = true,
+        priority = 1000,
         config = function() require "plugins/color" end,
     },
     {
-        'sainnhe/gruvbox-material',
-        -- enabled = true,
-        -- priority = 1000,
-        -- config = function() require "plugins/color" end,
+        "joshdick/onedark.vim"
     },
 
-    -- essentials
+    -- Essentials
     {
         "echasnovski/mini.trailspace",
         version = "*",
         event = "BufEnter",
-        config = function() require("mini.trailspace").setup {} end,
+        opts = {},
     },
     {
         "windwp/nvim-autopairs",
         version = "*",
-        config = function() require("nvim-autopairs").setup {} end,
+        opts = {}
     },
     {
         "kyazdani42/nvim-web-devicons",
@@ -60,156 +52,76 @@ local plugins = {
     {
         "folke/zen-mode.nvim",
         version = "*",
+        opts = {},
     },
     {
         "lukas-reineke/indent-blankline.nvim",
         version = "*",
-        config = function() require "plugins/indent-blankline" end,
+        opts = {},
     },
 
-    -- treesitter
+    -- Treesitter
     {
         "nvim-treesitter/nvim-treesitter",
         version = "*",
         dependencies = {
-            'nvim-treesitter/nvim-treesitter-textobjects',
+            {
+                "nvim-treesitter/nvim-treesitter-textobjects",
+                version = "*",
+                event = "BufEnter",
+            },
+            {
+                "nkrkv/nvim-treesitter-rescript",
+                version = "*",
+            },
         },
         event = "BufEnter",
-        config = function() require "plugins/treesitter" end,
         build = ":TSUpdate",
-    },
-    {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        version = "*",
-        event = "BufEnter",
-    },
-    {
-        "nkrkv/nvim-treesitter-rescript",
-        version = "*",
+        config = function() require "plugins/treesitter" end,
     },
 
-    -- lsp
+    -- LSP
     {
-        'neovim/nvim-lspconfig',
+        "neovim/nvim-lspconfig",
         dependencies = {
-            'williamboman/mason.nvim',
-            'williamboman/mason-lspconfig.nvim',
-            {
-                'j-hui/fidget.nvim',
-                tag = "legacy",
-                opts = {},
-            },
+            "williamboman/mason.nvim",
+            "williamboman/mason-lspconfig.nvim",
+            { "j-hui/fidget.nvim", tag = "legacy", opts = {}, },
+            'folke/neodev.nvim'
         },
         config = function() require "plugins/lsp" end,
     },
-    {
-        "glepnir/lspsaga.nvim",
-        event = "BufEnter",
-        config = function() require "plugins/lspsaga" end,
-    },
 
-    -- autocompletions
+    -- Autocompletions
     {
-        'hrsh7th/nvim-cmp',
+        "hrsh7th/nvim-cmp",
         dependencies = {
-            'hrsh7th/cmp-nvim-lsp',
-            'L3MON4D3/LuaSnip',
-            'saadparwaiz1/cmp_luasnip',
-            'rafamadriz/friendly-snippets'
+            "L3MON4D3/LuaSnip",
+            "hrsh7th/cmp-nvim-lsp",
+            "saadparwaiz1/cmp_luasnip",
+            "rafamadriz/friendly-snippets"
         },
         config = function() require "plugins/cmp" end,
     },
 
     {
-        'mfussenegger/nvim-dap',
+        "mfussenegger/nvim-dap",
         dependencies = {
-            'jay-babu/mason-nvim-dap.nvim',
-            'rcarriga/nvim-dap-ui',
-            'williamboman/mason.nvim',
-            'leoluz/nvim-dap-go',
+            "jay-babu/mason-nvim-dap.nvim",
+            "rcarriga/nvim-dap-ui",
+            "williamboman/mason.nvim",
+            "leoluz/nvim-dap-go",
         },
         config = function() require "plugins/dap" end,
     },
 
-    -- flutter
+    -- Flutter
     {
         "akinsho/flutter-tools.nvim",
         dependencies = { "nvim-lua/plenary.nvim" },
     },
 
-    -- file tree
-    {
-        "nvim-tree/nvim-tree.lua",
-        version = "*",
-        dependencies = { "kyazdani42/nvim-web-devicons" },
-        config = function() require "plugins/tree" end,
-    },
-
-    -- fuzzy finders
-    {
-        "nvim-telescope/telescope.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-            "nvim-telescope/telescope-ui-select.nvim",
-        },
-        config = function() require "plugins/telescope" end,
-    },
-    {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
-        cond = function()
-            return vim.fn.executable 'make' == 1
-        end,
-    },
-    {
-        "nvim-telescope/telescope-file-browser.nvim",
-    },
-    {
-        "ThePrimeagen/harpoon",
-    },
-    {
-        "kdheepak/lazygit.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-    },
-    {
-        "tpope/vim-fugitive",
-    },
-
-    -- bars
-    {
-        "nvim-lualine/lualine.nvim",
-        version = "*",
-        event = "VimEnter",
-        dependencies = { "kyazdani42/nvim-web-devicons" },
-        config = function() require "plugins/lualine" end,
-    },
-
-    -- terminal
-    {
-        "akinsho/toggleterm.nvim",
-        version = "*",
-        config = function() require "plugins/toggleterm" end,
-    },
-
-    -- git
-    {
-        "lewis6991/gitsigns.nvim",
-        version = "*",
-        event = "BufEnter",
-        config = function() require "plugins/gitsigns" end,
-    },
-
-    -- comments
-    {
-        "numToStr/Comment.nvim",
-        version = "*",
-        event = "BufEnter",
-        config = function() require "plugins/comment" end,
-    },
-
-    -- markdown
+    -- Markdown
     {
         "iamcco/markdown-preview.nvim",
         version = "*",
@@ -220,10 +132,86 @@ local plugins = {
         version = "*",
     },
 
-    -- misc
+    -- File Tree
+    {
+        "nvim-tree/nvim-tree.lua",
+        version = "*",
+        dependencies = { "kyazdani42/nvim-web-devicons" },
+        config = function() require "plugins/tree" end,
+    },
+
+    -- Fuzzy Finders
+    {
+        "nvim-telescope/telescope.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-telescope/telescope-ui-select.nvim",
+        },
+        config = function() require "plugins/telescope" end,
+    },
+    {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        build = "make",
+        cond = function()
+            return vim.fn.executable "make" == 1
+        end,
+    },
+
+    -- Git
+    {
+        "kdheepak/lazygit.nvim",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+        },
+    },
+    {
+        "tpope/vim-fugitive",
+    },
+    {
+        "lewis6991/gitsigns.nvim",
+        version = "*",
+        event = "BufEnter",
+        config = function() require "plugins/gitsigns" end,
+    },
+
+    -- Bars
+    {
+        "nvim-lualine/lualine.nvim",
+        version = "*",
+        event = "VimEnter",
+        dependencies = { "kyazdani42/nvim-web-devicons" },
+        config = function() require "plugins/lualine" end,
+    },
+
+    -- Terminal
+    {
+        "akinsho/toggleterm.nvim",
+        version = "*",
+        config = function() require "plugins/toggleterm" end,
+    },
+
+    -- Comments
+    {
+        "numToStr/Comment.nvim",
+        version = "*",
+        event = "BufEnter",
+        opts = {},
+    },
+
+    -- Misc
     {
         "jiaoshijie/undotree",
         config = function() require "plugins/undotree" end,
+    },
+    {
+        "ThePrimeagen/harpoon",
+    },
+    {
+        'Exafunction/codeium.vim',
+        event = 'BufEnter',
+        config = function()
+            vim.g.codeium_disable_bindings = 1
+        end,
     }
 }
 

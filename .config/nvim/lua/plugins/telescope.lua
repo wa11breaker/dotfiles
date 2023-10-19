@@ -20,12 +20,9 @@ telescope.setup({
         file_ignore_patterns = {
             ".git/",
             "node_modules/",
-            ".svelte-kit/",
             "package/",
             "build/",
             "coverage/",
-            ".next/",
-            ".turbo/",
         },
     },
     pickers = {

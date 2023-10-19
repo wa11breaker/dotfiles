@@ -1,10 +1,10 @@
 local map = vim.keymap.set
 local opts = { silent = true }
 
-map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Set space as leader
 vim.g.mapleader = " "
+map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Map
 map("n", "<Leader>w", "<C-w>")
@@ -58,10 +58,6 @@ for i = 1, 6 do
     map("n", lhs, rhs, { desc = "Move to Window " .. i })
 end
 
--- Terminal
-map({ "n", "t" }, "<leader>t", "<Cmd>ToggleTerm<CR>")
-map({ "n", "t" }, "<C-t>", "<Cmd>ToggleTerm<CR>")
-
 -- Tabs
 map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
 map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
@@ -82,18 +78,27 @@ map('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch 
 map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 -- Harpoon
-vim.keymap.set("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
-vim.keymap.set("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
-vim.keymap.set("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
-vim.keymap.set("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
-vim.keymap.set("n", "<C-k>", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
-vim.keymap.set("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
+map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
+map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
+map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
+map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
+map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
+map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
 
--- Undotree
-vim.keymap.set('n', '<leader>u', require('undotree').toggle, { noremap = true, silent = true })
-
--- Diagnostic key maps
+-- Diagnostic
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 map('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 map('n', '<leader>i', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+-- Terminal
+map({ "n", "t" }, "<leader>t", "<Cmd>ToggleTerm<CR>")
+map({ "n", "t" }, "<C-t>", "<Cmd>ToggleTerm<CR>")
+
+-- Codeium AI
+map({ 'i', 'v' }, "<C-'>", '<Nop>', { silent = true })
+map('i', '<Tab>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+map('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+map('i', "<C-'>", function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+map('i', '<C-;>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+map('i', '<C-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
