@@ -24,13 +24,13 @@ local plugins = {
 
     -- Theming
     {
-        "morhetz/gruvbox",
+        "catppuccin/nvim"
+    },
+    {
+        "joshdick/onedark.vim",
         enabled = true,
         priority = 1000,
         config = function() require "plugins/color" end,
-    },
-    {
-        "joshdick/onedark.vim"
     },
 
     -- Essentials
@@ -103,7 +103,15 @@ local plugins = {
         },
         config = function() require "plugins/cmp" end,
     },
+    {
+        'Exafunction/codeium.vim',
+        event = 'BufEnter',
+        config = function()
+            vim.g.codeium_disable_bindings = 1
+        end,
+    },
 
+    -- Debugging
     {
         "mfussenegger/nvim-dap",
         dependencies = {
@@ -127,10 +135,6 @@ local plugins = {
         version = "*",
         build = function() vim.fn["mkdp#util#install"]() end,
     },
-    {
-        "mzlogin/vim-markdown-toc",
-        version = "*",
-    },
 
     -- File Tree
     {
@@ -146,27 +150,18 @@ local plugins = {
         dependencies = {
             "nvim-lua/plenary.nvim",
             "nvim-telescope/telescope-ui-select.nvim",
+            {
+                "nvim-telescope/telescope-fzf-native.nvim",
+                build = "make",
+                cond = function()
+                    return vim.fn.executable "make" == 1
+                end,
+            },
         },
         config = function() require "plugins/telescope" end,
     },
-    {
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-        cond = function()
-            return vim.fn.executable "make" == 1
-        end,
-    },
 
     -- Git
-    {
-        "kdheepak/lazygit.nvim",
-        dependencies = {
-            "nvim-lua/plenary.nvim",
-        },
-    },
-    {
-        "tpope/vim-fugitive",
-    },
     {
         "lewis6991/gitsigns.nvim",
         version = "*",
@@ -206,13 +201,6 @@ local plugins = {
     {
         "ThePrimeagen/harpoon",
     },
-    {
-        'Exafunction/codeium.vim',
-        event = 'BufEnter',
-        config = function()
-            vim.g.codeium_disable_bindings = 1
-        end,
-    }
 }
 
 local options = {

@@ -1,9 +1,9 @@
 local map = vim.keymap.set
 local opts = { silent = true }
 
-
 -- Set space as leader
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Map
@@ -97,7 +97,7 @@ map({ "n", "t" }, "<C-t>", "<Cmd>ToggleTerm<CR>")
 
 -- Codeium AI
 map({ 'i', 'v' }, "<C-'>", '<Nop>', { silent = true })
-map('i', '<Tab>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+-- map('i', '<Tab>', function() return vim.fn['codeium#Accept']() end, { expr = true })
 map('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = true })
 map('i', "<C-'>", function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
 map('i', '<C-;>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })

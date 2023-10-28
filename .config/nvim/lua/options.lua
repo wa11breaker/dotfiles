@@ -44,14 +44,6 @@ local options = {
     fillchars = { eob = " " },               -- Change the character at the end of the buffer
 }
 
--- Set global mapleader and maplocalleader
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
--- Load NERDTree
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 -- Apply options
 for k, v in pairs(options) do
     vim.opt[k] = v
