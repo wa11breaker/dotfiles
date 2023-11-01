@@ -48,10 +48,10 @@ plugin.setup {
         'bash',
         'scss',
         'vimdoc',
+        'vim',
         'markdown',
         'markdown_inline',
         'regex',
         'proto',
-        'dart'
     },
 }

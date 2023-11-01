@@ -13,10 +13,10 @@ end
 
 -- setup_gruvbox()
 
--- vim.cmd [[colorscheme onedark]]
-local ok, catppuccin = pcall(require, "catppuccin")
-if not ok then return end
-catppuccin.setup {
-     flavour = "frappe", -- latte, frappe, macchiato, mocha
-}
-vim.cmd [[colorscheme catppuccin]]
+vim.cmd [[colorscheme onedark]]
+-- local ok, catppuccin = pcall(require, "catppuccin")
+-- if not ok then return end
+-- catppuccin.setup {
+--      flavour = "frappe", -- latte, frappe, macchiato, mocha
+-- }
+-- vim.cmd [[colorscheme catppuccin]]

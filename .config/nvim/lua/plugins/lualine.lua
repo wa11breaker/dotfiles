@@ -14,7 +14,7 @@ local filename = {
 local diagnostics = {
     'diagnostics',
     update_in_insert = true,
-    symbols = { error = " ", warn = " ", hint = " ", info = " " },
+    symbols = { error = "E ", warn = "W ", hint = "H ", info = "I " },
 }
 
 local encoding = {
@@ -69,7 +69,7 @@ require('lualine').setup {
         lualine_a = { mode },
         lualine_b = { "branch", diagnostics },
         lualine_c = { filename },
-        lualine_x = { encoding, 'fileformat', filetype, 'searchcount' },
+        lualine_x = { filetype, encoding, 'fileformat', 'searchcount' },
         lualine_y = { progress },
         lualine_z = { location }
     },
