@@ -1,3 +1,7 @@
+set syntax=off
+set clipboard=unnamedplus
+set paste
+
 xnoremap Y "+y
 let mapleader="\<Space>"
 
@@ -12,12 +16,6 @@ tnoremap jk <C-\><C-n>
 " Move lines
 vnoremap J :m '>+1<CR>gv=gv
 vnoremap K :m '<-2<CR>gv=gv
-
-" Resizing panes
-nnoremap <C-Up> :resize -2<CR>
-nnoremap <C-Down> :resize +2<CR>
-nnoremap <C-Left> :vertical resize -2<CR>
-nnoremap <C-Right> :vertical resize +2<CR>
 
 " Join lines without moving the cursor to the end
 nnoremap J mzJ`z
