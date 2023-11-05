@@ -1,8 +1,8 @@
+require('neodev').setup()
 require('mason').setup()
 require("mason-lspconfig").setup {
     ensure_installed = { "lua_ls" },
 }
-require('neodev').setup()
 
 local on_attach = function(_, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -97,3 +97,8 @@ vim.api.nvim_create_autocmd('FileType', {
         vim.keymap.set("n", "'f", lsp.buf.format, { buffer = true })
     end,
 })
+
+lspconfig.tsserver.setup {
+    on_attach = on_attach,
+    capabilities = capabilities,
+}

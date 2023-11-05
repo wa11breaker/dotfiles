@@ -13,12 +13,23 @@ require('nvim-tree').setup {
         dotfiles = true,
         custom = { '.git', '.DS_Store' },
     },
+    update_focused_file = {
+        enable = true,
+        update_root = true,
+    },
     renderer = {
         root_folder_label = function(path)
             local project = vim.fn.fnamemodify(path, ":t")
             return string.upper(project)
         end,
         indent_markers = { enable = true },
+        icons = {
+            show = {
+                file = false,
+                folder = false,
+                folder_arrow = false,
+            },
+        },
     },
     view = {
         relativenumber = true,
