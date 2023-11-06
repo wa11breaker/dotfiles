@@ -3,7 +3,7 @@ require('base16-colorscheme').with_config {
     telescope = false,
 }
 
-vim.cmd('colorscheme base16-gruvbox-dark-hard')
+vim.cmd('colorscheme base16-gruvbox-dark-pale')
 
 -- local function setup_gruvbox()
 --     vim.g.gruvbox_contrast_dark = 'hard'
