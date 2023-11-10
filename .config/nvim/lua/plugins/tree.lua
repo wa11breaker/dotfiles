@@ -27,7 +27,7 @@ require('nvim-tree').setup {
             show = {
                 file = false,
                 folder = false,
-                folder_arrow = false,
+                folder_arrow = true,
             },
         },
     },

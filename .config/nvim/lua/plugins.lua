@@ -24,13 +24,7 @@ local plugins = {
 
     -- Theming
     {
-        "catppuccin/nvim"
-    },
-    {
-        'RRethy/nvim-base16',
-    },
-    {
-        "joshdick/onedark.vim",
+        "sainnhe/sonokai",
         enabled = true,
         priority = 1000,
         config = function() require "plugins/color" end,
@@ -60,7 +54,7 @@ local plugins = {
     {
         "lukas-reineke/indent-blankline.nvim",
         main = "ibl",
-        opts = {}
+        opts = { scope = { enabled = false, } }
     },
 
     -- Treesitter
@@ -163,9 +157,6 @@ local plugins = {
         },
         config = function() require "plugins/telescope" end,
     },
-    -- {
-    --     "jonarrien/telescope-cmdline.nvim",
-    -- },
 
     -- Git
     {
