@@ -5,3 +5,6 @@ http
 monokai
 json
 chroma
+sequelize
+config
+env

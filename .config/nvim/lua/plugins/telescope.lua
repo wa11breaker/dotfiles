@@ -15,7 +15,7 @@ telescope.setup({
             i = {
                 ["<esc>"] = actions.close,
                 ['<C-p>'] = require('telescope.actions.layout').toggle_preview
-            },
+           },
         },
         file_ignore_patterns = {
             ".git/",
@@ -26,16 +26,16 @@ telescope.setup({
         },
     },
     pickers = {
-        find_files = {
-            hidden = true,
-            disable_devicons = true,
-            -- Hide "./" sign on search result
-            find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
-        },
-        buffers = {
-            sort_lastused = true,
-            sorter = require("telescope.sorters").get_substr_matcher(),
-        },
+        -- find_files = {
+        --     hidden = true,
+        --     disable_devicons = true,
+        --     -- Hide "./" sign on search result
+        --     find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
+        -- },
+        -- buffers = {
+        --     sort_lastused = true,
+        --     sorter = require("telescope.sorters").get_substr_matcher(),
+        -- },
     },
 })
 telescope.load_extension("fzf")
