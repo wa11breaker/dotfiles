@@ -6,7 +6,7 @@ local plugin = require "nvim-treesitter.configs"
 
 plugin.setup {
     highlight = {
-        enable = false,
+        enable = true,
         use_languagetree = true,
         disable = check_file_size,
     },

@@ -79,7 +79,7 @@ map('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch 
 map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 -- Harpoon
--- map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
+map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
 map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
 map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
 map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })

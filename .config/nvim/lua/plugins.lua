@@ -205,7 +205,7 @@ local options = {
         lazy = false,
         version = "*",
     },
-    -- lockfile = "~/.config/nvim/lazy-lock.json",
+    lockfile = "~/.config/nvim/lazy-lock.json",
 }
 
 lazy.setup(plugins, options)
