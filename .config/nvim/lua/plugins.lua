@@ -29,8 +29,10 @@ local plugins = {
         priority = 1000,
         config = function() require "plugins/color" end,
     },
-
     -- Essentials
+    {
+        'christoomey/vim-tmux-navigator',
+    },
     {
         "echasnovski/mini.trailspace",
         version = "*",
