@@ -1,9 +1,6 @@
 local map = vim.keymap.set
 local opts = { silent = true }
 
--- Set space as leader
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
 map({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
 -- Map
@@ -35,7 +32,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Clear search with leader h
-map("n", "<leader>h", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+map("n", "<leader><leader>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
 -- Half page jumping and cursor stays in the middle
 map("n", "<C-d>", "<C-d>zz")
@@ -58,19 +55,12 @@ for i = 1, 6 do
     map("n", lhs, rhs, { desc = "Move to Window " .. i })
 end
 
--- Tabs
-map("n", "<leader><tab>l", "<cmd>tablast<cr>", { desc = "Last Tab" })
-map("n", "<leader><tab>f", "<cmd>tabfirst<cr>", { desc = "First Tab" })
-map("n", "<leader><tab><tab>", "<cmd>tabnew<cr>", { desc = "New Tab" })
-map("n", "<leader><tab>]", "<cmd>tabnext<cr>", { desc = "Next Tab" })
-map("n", "<leader><tab>[", "<cmd>tabprevious<cr>", { desc = "Previous Tab" })
-map("n", "<leader><tab>q", "<cmd>tabclose<cr>", { desc = "Close Tab" })
 
+-- NvimTree
 map('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', opts)
 map('n', '<esc>', '<cmd>NvimTreeClose<cr>', opts)
 
 -- Telescope
--- map("n", ":", ':silent Telescope cmdline<CR>', { noremap = true })
 map('n', '<leader>sf', require('telescope.builtin').find_files, { desc = '[S]earch [F]iles' })
 map('n', '<leader>sh', require('telescope.builtin').help_tags, { desc = '[S]earch [H]elp' })
 map('n', '<leader>sw', require('telescope.builtin').grep_string, { desc = '[S]earch current [W]ord' })
@@ -80,11 +70,11 @@ map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]ea
 
 -- Harpoon
 map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
-map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
-map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
-map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
-map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
-map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
+map("n", "<C e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
+map("n", "<leader>h", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
+map("n", "<leader>j", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
+map("n", "<leader>k", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
+map("n", "<leader>l", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
 
 -- Diagnostic
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -95,6 +85,8 @@ map('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list
 -- Terminal
 map({ "n", "t" }, "<leader>t", "<Cmd>ToggleTerm<CR>")
 map({ "n", "t" }, "<C-t>", "<Cmd>ToggleTerm<CR>")
+
+map("n", "<leader>u", "<cmd>lua require('undotree').toggle()<cr>")
 
 -- Codeium AI
 map({ 'i', 'v' }, "<C-'>", '<Nop>', { silent = true })

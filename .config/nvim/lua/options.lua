@@ -47,7 +47,8 @@ local options = {
     syntax = "off"
 }
 vim.highlight.priorities.semantic_tokens = 95
-
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- Apply options
 for k, v in pairs(options) do
