@@ -24,6 +24,20 @@ require('nvim-tree').setup {
         end,
         indent_markers = { enable = true },
         icons = {
+            git_placement = "after",
+            glyphs = {
+                default = "",
+                symlink = "",
+                git = {
+                    unstaged = "U",
+                    staged = "S",
+                    unmerged = "UM",
+                    renamed = "R",
+                    deleted = "D",
+                    untracked = "UT",
+                    ignored = "I",
+                },
+            },
             show = {
                 file = false,
                 folder = false,
@@ -32,7 +46,7 @@ require('nvim-tree').setup {
         },
     },
     view = {
-        relativenumber = true,
+        signcolumn = "yes",
         float = {
             enable = true,
             open_win_config = function()
