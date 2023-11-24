@@ -45,10 +45,6 @@ local plugins = {
         opts = {}
     },
     {
-        "kyazdani42/nvim-web-devicons",
-        version = "*",
-    },
-    {
         "folke/zen-mode.nvim",
         version = "*",
         opts = {},
@@ -63,17 +59,6 @@ local plugins = {
     {
         "nvim-treesitter/nvim-treesitter",
         version = "*",
-        dependencies = {
-            {
-                "nvim-treesitter/nvim-treesitter-textobjects",
-                version = "*",
-                event = "BufEnter",
-            },
-            {
-                "nkrkv/nvim-treesitter-rescript",
-                version = "*",
-            },
-        },
         event = "BufEnter",
         build = ":TSUpdate",
         config = function() require "plugins/treesitter" end,
@@ -175,13 +160,6 @@ local plugins = {
         event = "VimEnter",
         dependencies = { "kyazdani42/nvim-web-devicons" },
         config = function() require "plugins/lualine" end,
-    },
-
-    -- Terminal
-    {
-        "akinsho/toggleterm.nvim",
-        version = "*",
-        config = function() require "plugins/toggleterm" end,
     },
 
     -- Comments

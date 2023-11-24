@@ -4,9 +4,6 @@ g.loaded_netrwPlugin = 1
 
 local HEIGHT_RATIO = 0.8
 local WIDTH_RATIO = 0.5
-vim.cmd("highlight NormalFloat guibg=NONE")
-vim.cmd("highlight FloatBorder guibg=NONE")
-
 
 require('nvim-tree').setup {
     filters = {
@@ -60,7 +57,7 @@ require('nvim-tree').setup {
                 local center_y = ((vim.opt.lines:get() - window_h) / 2)
                     - vim.opt.cmdheight:get()
                 return {
-                    border = "rounded",
+                    border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' },
                     style = "minimal",
                     relative = "editor",
                     row = center_y,

@@ -1,6 +1,5 @@
 local telescope = require("telescope")
 local actions = require("telescope.actions")
-
 telescope.setup({
     extensions = {
         fzf = {
@@ -11,11 +10,13 @@ telescope.setup({
         },
     },
     defaults = {
+        border = {},
+        borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
         mappings = {
             i = {
                 ["<esc>"] = actions.close,
                 ['<C-p>'] = require('telescope.actions.layout').toggle_preview
-           },
+            },
         },
         file_ignore_patterns = {
             ".git/",
@@ -38,5 +39,6 @@ telescope.setup({
         -- },
     },
 })
+
 telescope.load_extension("fzf")
 telescope.load_extension("ui-select")
