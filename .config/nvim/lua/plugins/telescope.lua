@@ -8,6 +8,9 @@ telescope.setup({
             override_file_sorter = true,    -- override the file sorter
             case_mode = "smart_case",       -- or "ignore_case" or "respect_case" or "smart_case"
         },
+        ["ui-select"] = {
+            layout_config = { width = 0.4, height = 0.4 },
+        },
     },
     defaults = {
         border = {},

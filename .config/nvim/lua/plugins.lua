@@ -31,9 +31,6 @@ local plugins = {
     },
     -- Essentials
     {
-        'christoomey/vim-tmux-navigator',
-    },
-    {
         "echasnovski/mini.trailspace",
         version = "*",
         event = "BufEnter",

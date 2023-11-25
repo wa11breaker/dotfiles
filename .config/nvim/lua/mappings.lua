@@ -32,7 +32,7 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Clear search with leader h
-map("n", "<leader><leader>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
+map("n", "<leader>h", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 
 -- Half page jumping and cursor stays in the middle
 map("n", "<C-d>", "<C-d>zz")
@@ -55,7 +55,6 @@ for i = 1, 6 do
     map("n", lhs, rhs, { desc = "Move to Window " .. i })
 end
 
-
 -- NvimTree
 map('n', '<leader>e', '<cmd>NvimTreeToggle<cr>', opts)
 map('n', '<esc>', '<cmd>NvimTreeClose<cr>', opts)
@@ -70,11 +69,11 @@ map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]ea
 
 -- Harpoon
 map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
-map("n", "<C e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
-map("n", "<leader>h", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
-map("n", "<leader>j", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
-map("n", "<leader>k", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
-map("n", "<leader>l", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
+map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
+map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
+map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
+map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
+map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
 
 -- Diagnostic
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -82,10 +81,8 @@ map('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message
 map('n', '<leader>i', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
 
--- Terminal
-map({ "n", "t" }, "<leader>t", "<Cmd>ToggleTerm<CR>")
-map({ "n", "t" }, "<C-t>", "<Cmd>ToggleTerm<CR>")
 
+-- Undotree
 map("n", "<leader>u", "<cmd>lua require('undotree').toggle()<cr>")
 
 -- Codeium AI
