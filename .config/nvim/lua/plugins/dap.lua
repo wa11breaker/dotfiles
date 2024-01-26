@@ -2,24 +2,15 @@ local dap = require 'dap'
 local dapui = require 'dapui'
 
 require("mason-nvim-dap").setup {
-    -- Makes a best effort to setup the various debuggers with
-    -- reasonable debug configurations
     automatic_setup = true,
-
-    -- You'll need to check that you have the required things installed
-    -- online, please don't ask me how to install them :)
     ensure_installed = {
-        -- Update this to ensure that you have the debuggers for the langs you want
         'delve',
     },
 }
 
--- You can provide additional configuration to the handlers,
--- see mason-nvim-dap README for more information
 require("mason").setup()
 require("mason-nvim-dap").setup()
 
--- Basic debugging keymaps, feel free to change to your liking!
 vim.keymap.set('n', '<F5>', dap.continue)
 vim.keymap.set('n', '<F1>', dap.step_into)
 vim.keymap.set('n', '<F2>', dap.step_over)
@@ -30,12 +21,7 @@ vim.keymap.set('n', '<leader>B', function()
 end)
 vim.keymap.set('n', '<leader>t', "<cmd>:lua require('dapui').toggle() <CR>", { desc = 'Toggle dap ui' })
 
--- Dap UI setup
--- For more information, see |:help nvim-dap-ui|
 dapui.setup {
-    -- Set icons to characters that are more likely to work in every terminal.
-    --    Feel free to remove or use ones that you like more! :)
-    --    Don't feel like these are good choices.
     icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
     controls = {
         icons = {
@@ -55,5 +41,4 @@ dap.listeners.after.event_initialized['dapui_config'] = dapui.open
 dap.listeners.before.event_terminated['dapui_config'] = dapui.close
 dap.listeners.before.event_exited['dapui_config'] = dapui.close
 
--- Install golang specific config
 require('dap-go').setup()

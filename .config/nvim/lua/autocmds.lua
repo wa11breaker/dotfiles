@@ -1,13 +1,14 @@
 local autocmd = vim.api.nvim_create_autocmd
 
 -- Highlight yanked text
-autocmd("TextYankPost", {
-    callback = function()
-        vim.highlight.on_yank { higroup = "Visual", timeout = 150 }
-    end,
-})
+vim.api.nvim_exec([[
+  augroup YankHighlight
+    autocmd!
+    autocmd TextYankPost * lua vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 150 })
+  augroup END
+]], false)
 
--- Enable spellchecking in markdown, text and gitcommit files
+-- Enable spellchecking in markdown, text, and gitcommit files
 autocmd("FileType", {
     pattern = { "gitcommit", "markdown", "text", "tex" },
     callback = function()
@@ -15,7 +16,18 @@ autocmd("FileType", {
     end,
 })
 
--- show cursor line only in active window
+local function toggle_spellcheck()
+    if vim.o.spell then
+        vim.opt.spell = false
+        print("Spell checking disabled.")
+    else
+        vim.opt.spell = true
+        print("Spell checking enabled.")
+    end
+end
+vim.cmd('command! ToggleSpellcheck lua toggle_spellcheck()')
+
+-- Show cursor line only in the active window
 local cursorGrp = vim.api.nvim_create_augroup("CursorLine", { clear = true })
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
     pattern = "*",
@@ -27,21 +39,8 @@ vim.api.nvim_create_autocmd(
     { pattern = "*", command = "set nocursorline", group = cursorGrp }
 )
 
--- don't auto comment new line
+-- Don't auto comment new lines
 vim.api.nvim_create_autocmd("BufEnter", { command = [[set formatoptions-=cro]] })
 
--- resize neovim split when terminal is resized
+-- Resize Neovim split when the terminal is resized
 vim.api.nvim_command('autocmd VimResized * wincmd =')
-
-vim.api.nvim_create_autocmd("ColorScheme", {
-    pattern = "kanagawa",
-    callback = function()
-        if vim.o.background == "light" then
-            vim.fn.system("kitty +kitten themes Kanagawa_light")
-        elseif vim.o.background == "dark" then
-            vim.fn.system("kitty +kitten themes Kanagawa_dragon")
-        else
-            vim.fn.system("kitty +kitten themes Kanagawa")
-        end
-    end,
-})

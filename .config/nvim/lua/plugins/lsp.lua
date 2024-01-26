@@ -53,14 +53,16 @@ lspconfig.sumneko_lua.setup {
     capabilities = capabilities,
 }
 
--- Check if gopls executable exists
+-- Go
 lspconfig.gopls.setup {
     on_attach = on_attach,
     capabilities = capabilities,
 }
 
--- Check if pyright executable exists
-lspconfig.pyright.setup {}
+-- Python
+lspconfig.pyright.setup {
+    on_attach = on_attach,
+}
 
 -- JavaScript/Typescript
 lspconfig.tsserver.setup {
