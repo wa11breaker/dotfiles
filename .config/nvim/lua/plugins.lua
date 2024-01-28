@@ -149,6 +149,16 @@ local plugins = {
         event = "BufEnter",
         config = function() require "plugins/gitsigns" end,
     },
+    {
+        "NeogitOrg/neogit",
+        config = function() require "plugins/git" end,
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "sindrets/diffview.nvim",
+            "nvim-telescope/telescope.nvim", -- optional
+        },
+        config = true
+    },
 
     -- Bars
     {

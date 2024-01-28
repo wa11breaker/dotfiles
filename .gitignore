@@ -1,9 +1,0 @@
-# Ignore everything
-*
-
-# But not these files...
-!.gitignore
-!.config
-!.scripts
-!README.md
-!screenshot.png
