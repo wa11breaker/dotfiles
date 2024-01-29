@@ -68,7 +68,7 @@ local plugins = {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
             { "j-hui/fidget.nvim", tag = "legacy", opts = {}, },
-            'folke/neodev.nvim'
+            'folke/neodev.nvim',
         },
         config = function() require "plugins/lsp" end,
     },
@@ -78,8 +78,10 @@ local plugins = {
         "hrsh7th/nvim-cmp",
         dependencies = {
             "L3MON4D3/LuaSnip",
-            "hrsh7th/cmp-nvim-lsp",
             "saadparwaiz1/cmp_luasnip",
+
+            "hrsh7th/cmp-nvim-lsp",
+            'hrsh7th/cmp-path',
             "rafamadriz/friendly-snippets"
         },
         config = function() require "plugins/cmp" end,

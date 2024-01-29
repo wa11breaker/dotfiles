@@ -4,6 +4,7 @@ local luasnip = require 'luasnip'
 luasnip.config.setup {}
 
 require('luasnip.loaders.from_vscode').lazy_load()
+require 'luasnip'.filetype_extend('dart', { 'flutter' })
 
 cmp.setup {
     snippet = {
@@ -44,5 +45,6 @@ cmp.setup {
         { name = 'nvim_lsp' },
         { name = 'buffer' },
         { name = 'luasnip' },
+        { name = 'path' },
     },
 }
