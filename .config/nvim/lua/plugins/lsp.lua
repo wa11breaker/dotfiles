@@ -75,4 +75,7 @@ require("flutter-tools").setup {
         on_attach = on_attach,
         capabilities = capabilities,
     },
+    widget_guides = {
+        enabled = true,
+    },
 }
