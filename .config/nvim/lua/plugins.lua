@@ -159,7 +159,6 @@ local plugins = {
             "sindrets/diffview.nvim",
             "nvim-telescope/telescope.nvim", -- optional
         },
-        config = true
     },
 
     -- Bars
