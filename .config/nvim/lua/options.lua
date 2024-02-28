@@ -44,7 +44,8 @@ local options = {
     fillchars = { eob = " " },               -- Change the character at the end of the buffer
     spelllang = 'en_us',
     spell = true,
-    syntax = "off"
+    syntax = "off",
+    showtabline=1
 }
 vim.highlight.priorities.semantic_tokens = 95
 vim.g.mapleader = ' '
