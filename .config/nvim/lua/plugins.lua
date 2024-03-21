@@ -16,6 +16,9 @@ vim.opt.rtp:prepend(lazypath)
 local lazy = require "lazy"
 
 local plugins = {
+    {
+        dir = "/Users/akshay/Development/opensource/flutter-bloc.nvim",
+    },
     -- Standard Library
     {
         "nvim-lua/plenary.nvim",
@@ -184,6 +187,16 @@ local plugins = {
     },
     {
         "ThePrimeagen/harpoon",
+        config = function()
+            local harpoon = require "harpoon"
+            harpoon.setup(
+                {
+                    menu = {
+                        borderchars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+                    }
+                }
+            )
+        end,
     },
 }
 
