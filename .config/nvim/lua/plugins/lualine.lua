@@ -70,7 +70,6 @@ require('lualine').setup {
         lualine_b = { "branch", diagnostics },
         lualine_c = { filename },
         lualine_x = { filetype, encoding, 'searchcount' },
-        lualine_y = { progress },
         lualine_z = { location }
     },
 

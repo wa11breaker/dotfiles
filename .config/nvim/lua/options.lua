@@ -44,8 +44,11 @@ local options = {
     spelllang = 'en_us',
     spell = true,
     syntax = "off",
-    showtabline=1
+    showtabline = 1,
+    exrc = true,
+    secure = true,
 }
+
 vim.highlight.priorities.semantic_tokens = 95
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
