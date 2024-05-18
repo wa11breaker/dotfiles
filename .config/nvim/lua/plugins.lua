@@ -19,6 +19,11 @@ local plugins = {
     {
         dir = "/Users/akshay/Development/opensource/flutter-bloc.nvim",
     },
+    {
+        dir = "/Users/akshay/Development/opensource/dart-data-class-generator.nvim",
+        lazy = true,
+        ft = { 'dart' },
+    },
     -- Standard Library
     {
         "nvim-lua/plenary.nvim",
@@ -63,6 +68,9 @@ local plugins = {
         build = ":TSUpdate",
         config = function() require "plugins/treesitter" end,
     },
+    {
+        "nvim-treesitter/playground"
+    },
 
     -- LSP
     {
@@ -104,6 +112,7 @@ local plugins = {
             "rcarriga/nvim-dap-ui",
             "williamboman/mason.nvim",
             "leoluz/nvim-dap-go",
+            "nvim-neotest/nvim-nio"
         },
         config = function() require "plugins/dap" end,
     },
@@ -181,6 +190,11 @@ local plugins = {
     },
 
     -- Misc
+    {
+        "L3MON4D3/LuaSnip",
+        version = "v2.*",
+        build = "make install_jsregexp"
+    },
     {
         "jiaoshijie/undotree",
         config = function() require "plugins/undotree" end,

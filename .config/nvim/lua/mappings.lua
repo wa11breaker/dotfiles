@@ -68,12 +68,12 @@ map('n', '<leader>sb', require('telescope.builtin').buffers, { desc = '[S]earch 
 map('n', '<leader>sd', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
 
 -- Harpoon
-map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
-map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
-map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
-map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
-map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
-map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
+-- map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
+-- map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
+-- map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
+-- map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
+-- map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
+-- map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
 
 -- Diagnostic
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
@@ -92,3 +92,21 @@ map('i', '<C-g>', function() return vim.fn['codeium#Accept']() end, { expr = tru
 map('i', "<C-'>", function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
 map('i', '<C-;>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
 map('i', '<C-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+
+local ls = require('luasnip').setup()
+require("luasnip.loaders.from_vscode").lazy_load()
+vim.keymap.set({ "i", "s" }, "<C-p>", function()
+    if ls.choice_active() then
+        ls.change_choice(1)
+    end
+end, { silent = true })
+
+function reload_local_plugin()
+    vim.fn.system("LazyReload dart-data-class-generator.nvim")
+    require('dart-data-class-generator').generateCopyWith()
+end
+
+_G.reload_plugin = reload_local_plugin
+
+vim.cmd [[command! ReloadPlugin lua reload_plugin()]]
+return M
