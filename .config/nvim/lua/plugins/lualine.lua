@@ -24,77 +24,58 @@ local encoding = {
     separator = { left = "" },
 }
 
-local progress = {
-    '%P',
-    icon = "",
-    padding = { left = 0, right = 1 },
-}
-
-local filename_inactive = {
-    'filename',
-    padding = 1,
-    path = 0,
-    symbols = { modified = ' ', readonly = ' ', unnamed = '' }
-}
-
 local location = {
     'location',
-}
-
-local filetype = {
-    'filetype',
-    separator = { left = " " },
 }
 
 local function window()
     return vim.api.nvim_win_get_number(0)
 end
 
-local auto_theme_custom = require('lualine.themes.auto')
-auto_theme_custom.normal.c.bg = 'none'
+return {
+    'nvim-lualine/lualine.nvim',
+    opts =
+    {
+        options = {
+            icons_enabled = true,
+            component_separators = { " ", " " },
+            section_separators = { left = " ", right = " " },
+            always_divide_middle = true,
+            disabled_filetypes = { 'nvim-tree' },
+            globalstatus = false,
+        },
 
---- Setup ---
-require('lualine').setup {
-    options = {
-        icons_enabled = true,
-        component_separators = { " ", " " },
-        -- section_separators = { left = '', right = '' }, --    
-        section_separators = { left = " ", right = " " },
-        always_divide_middle = true,
-        disabled_filetypes = { 'nvim-tree' },
-        globalstatus = false,
-    },
+        sections = {
+            lualine_a = { mode },
+            lualine_b = { "branch", diagnostics },
+            lualine_c = { filename },
+            lualine_x = { 'searchcount' },
+            lualine_z = { location }
+        },
 
-    sections = {
-        lualine_a = { mode },
-        lualine_b = { "branch", diagnostics },
-        lualine_c = { filename },
-        lualine_x = { filetype, encoding, 'searchcount' },
-        lualine_z = { location }
-    },
-
-    inactive_sections = {
-        lualine_a = { window },
-        lualine_b = {},
-        lualine_c = {
-            function()
-                return "%="
-            end,
-            {
-                "filename",
-                path = 1,
-                shorting_target = 40,
-                symbols = {
-                    modified = "*",
-                    unnamed = "[No Name]",
-                    newfile = "[New]",
+        inactive_sections = {
+            lualine_a = { window },
+            lualine_b = {
+                function()
+                    return "%="
+                end,
+                {
+                    "filename",
+                    path = 1,
+                    shorting_target = 40,
+                    symbols = {
+                        modified = "*",
+                        unnamed = "[No Name]",
+                        newfile = "[New]",
+                    },
                 },
             },
+            lualine_c = {},
+            lualine_x = {},
+            lualine_y = {},
+            lualine_z = {}
         },
-        lualine_x = {},
-        lualine_y = {},
-        lualine_z = {}
-    },
-    tabline = {},
-    extensions = { 'man', 'nvim-dap-ui', 'toggleterm', 'nvim-tree' }
+        tabline = {},
+        extensions = { 'man', 'nvim-dap-ui', 'toggleterm', 'nvim-tree' }
+    }
 }
