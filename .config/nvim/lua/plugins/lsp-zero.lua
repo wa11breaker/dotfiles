@@ -5,7 +5,11 @@ return {
     dependencies = {
         "neovim/nvim-lspconfig",
         "hrsh7th/cmp-nvim-lsp",
-        "j-hui/fidget.nvim",
+        {
+            "j-hui/fidget.nvim",
+            opts = {}
+        }
+
     },
     config = function()
         local lsp_zero = require("lsp-zero")
