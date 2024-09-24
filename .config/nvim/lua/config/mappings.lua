@@ -41,11 +41,16 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
+-- Copy to system clipboard
+map({ "n", "v" }, "<leader>y", [["+y]])
+
 -- Paste and without overwriting register
 map("x", "<leader>p", [["_dP]])
 
 -- Delete and without overwriting register
 map({ "n", "v" }, "<leader>d", [["_d]])
+
+map("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 
 -- Easier window switching with leader + Number
 for i = 1, 6 do

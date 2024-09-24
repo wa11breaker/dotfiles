@@ -1,11 +1,11 @@
 local border = {
-    { "╭", "FloatBorder" },
+    { "┌", "FloatBorder" },
     { "─", "FloatBorder" },
-    { "╮", "FloatBorder" },
+    { "┐", "FloatBorder" },
     { "│", "FloatBorder" },
-    { "╯", "FloatBorder" },
+    { "┘", "FloatBorder" },
     { "─", "FloatBorder" },
-    { "╰", "FloatBorder" },
+    { "└", "FloatBorder" },
     { "│", "FloatBorder" },
 }
 
@@ -22,16 +22,58 @@ return {
 
         require("mason").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "ts_ls", "lua_ls" },
+            ensure_installed = { "lua_ls" },
             handlers = {
                 function(server_name)
-                    -- TS server will be handled by typescript-tools.nvim
-                    if server_name == "ts_ls" then
-                        return
-                    end
+                    local lsp_config = require("lspconfig")
 
-                    require("lspconfig")[server_name].setup({
+                    lsp_config[server_name].setup({
                         handlers = handlers,
+                    })
+                    lsp_config.lua_ls.setup({
+                        settings = {
+                            Lua = {
+                                runtime = {
+                                    version = 'LuaJIT'
+                                },
+                                diagnostics = {
+                                    globals = { 'vim' },
+                                },
+                                workspace = {
+                                    library = {
+                                        vim.env.VIMRUNTIME,
+                                    }
+                                }
+                            }
+                        }
+                    })
+                    lsp_config["dartls"].setup({
+                        cmd = {
+                            "dart",
+                            "language-server",
+                            "--protocol=lsp",
+                        },
+                        filetypes = { "dart" },
+                        init_options = {
+                            onlyAnalyzeProjectsWithOpenFiles = false,
+                            suggestFromUnimportedLibraries = true,
+                            closingLabels = true,
+                            outline = false,
+                            flutterOutline = false,
+                        },
+                        settings = {
+                            dart = {
+                                analysisExcludedFolders = {
+                                    vim.fn.expand("$HOME/AppData/Local/Pub/Cache"),
+                                    vim.fn.expand("$HOME/.pub-cache"),
+                                    vim.fn.expand("/opt/homebrew/"),
+                                    vim.fn.expand("$HOME/tools/flutter/"),
+                                },
+                                updateImportsOnRename = true,
+                                completeFunctionCalls = true,
+                                showTodos = true,
+                            },
+                        },
                     })
                 end,
             },
