@@ -34,11 +34,11 @@ vim.opt.wrap = false
 
 vim.opt.fillchars:append({
     eob = " ",
-    horiz = " ",
-    horizup = " ",
-    horizdown = " ",
-    vert = " ",
-    vertleft = " ",
-    vertright = " ",
-    verthoriz = " ",
+    -- horiz = " ",
+    -- horizup = " ",
+    -- horizdown = " ",
+    -- vert = " ",
+    -- vertleft = " ",
+    -- vertright = " ",
+    -- verthoriz = " ",
 })

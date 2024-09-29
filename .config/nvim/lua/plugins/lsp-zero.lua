@@ -9,7 +9,6 @@ return {
             "j-hui/fidget.nvim",
             opts = {}
         }
-
     },
     config = function()
         local lsp_zero = require("lsp-zero")

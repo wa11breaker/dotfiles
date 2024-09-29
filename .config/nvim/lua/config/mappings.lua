@@ -59,16 +59,10 @@ for i = 1, 6 do
     map("n", lhs, rhs, { desc = "Move to Window " .. i })
 end
 
--- Harpoon
-map("n", "<leader>a", ":lua require('harpoon.mark').add_file()<CR>", { noremap = true })
-map("n", "<C-e>", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", { noremap = true })
-map("n", "<C-h>", ":lua require('harpoon.ui').nav_file(1)<CR>", { noremap = true })
-map("n", "<C-j>", ":lua require('harpoon.ui').nav_file(2)<CR>", { noremap = true })
-map("n", "<C-k>", ":lua require('harpoon.ui').nav_file(3)<CR>", { noremap = true })
-map("n", "<C-l>", ":lua require('harpoon.ui').nav_file(4)<CR>", { noremap = true })
-
 -- Diagnostic
 map('n', '[d', vim.diagnostic.goto_prev, { desc = "Go to previous diagnostic message" })
 map('n', ']d', vim.diagnostic.goto_next, { desc = "Go to next diagnostic message" })
 map('n', '<leader>i', vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 map('n', '<leader>q', vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+
+map("n", "<leader>gg", ":!tmux new-window -c " .. vim.fn.getcwd() .. " -- lazygit <CR><CR>", { silent = true })
