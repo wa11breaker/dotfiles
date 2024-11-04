@@ -12,5 +12,6 @@ return {
         vim.cmd("highlight FloatBorder guibg=NONE ctermbg=NONE")
         vim.cmd("highlight NvimTreeNormal guibg=NONE ctermbg=NONE")
         vim.cmd("let g:sonokai_transparent_background = 1")
+        vim.cmd("set t_Co=256")
     end
 }

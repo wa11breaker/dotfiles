@@ -43,7 +43,7 @@ return {
             },
         })
 
-        telescope.load_extension("fzf")
+        -- telescope.load_extension("fzf")
         telescope.load_extension("ui-select")
 
         vim.keymap.set('n', '<leader>sf', require('telescope.builtin').git_files, { desc = '[S]earch [F]iles' })
