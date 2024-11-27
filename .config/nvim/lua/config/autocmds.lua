@@ -16,7 +16,7 @@ autocmd('LspAttach', {
     end
 })
 
--- Highlight yanked text
+-- -- Highlight yanked text
 local yank_group = augroup('HighlightYank', {})
 autocmd('TextYankPost', {
     group = yank_group,
@@ -28,6 +28,7 @@ autocmd('TextYankPost', {
         })
     end,
 })
+
 
 -- Enable spellchecking in markdown, text, and gitcommit files
 autocmd("FileType", {

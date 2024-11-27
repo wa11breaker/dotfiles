@@ -8,7 +8,7 @@ return {
         {
             "j-hui/fidget.nvim",
             opts = {}
-        }
+        },
     },
     config = function()
         local lsp_zero = require("lsp-zero")
@@ -32,11 +32,13 @@ return {
             { "│", "FloatBorder" },
         }
 
-        -- Override border globally
+        -- Override the function with custom border
         local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
         function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
             opts = opts or {}
             opts.border = opts.border or border
+            opts.max_width = opts.max_width or 80
+            opts.max_height = opts.max_height or 40
             return orig_util_open_floating_preview(contents, syntax, opts, ...)
         end
 

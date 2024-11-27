@@ -47,7 +47,7 @@ return {
                             }
                         }
                     })
-                    lsp_config["dartls"].setup({
+                    lsp_config.dartls.setup({
                         cmd = {
                             "dart",
                             "language-server",
@@ -55,11 +55,11 @@ return {
                         },
                         filetypes = { "dart" },
                         init_options = {
-                            onlyAnalyzeProjectsWithOpenFiles = false,
-                            suggestFromUnimportedLibraries = true,
                             closingLabels = true,
                             outline = false,
                             flutterOutline = false,
+                            onlyAnalyzeProjectsWithOpenFiles = false,
+                            suggestFromUnimportedLibraries = true,
                         },
                         settings = {
                             dart = {
@@ -73,6 +73,9 @@ return {
                                 completeFunctionCalls = true,
                                 showTodos = true,
                             },
+                            updateImportsOnRename = true,
+                            completeFunctionCalls = true,
+                            showTodos = true,
                         },
                     })
                 end,

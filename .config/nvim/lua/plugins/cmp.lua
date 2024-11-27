@@ -26,6 +26,14 @@ return {
         require("luasnip.loaders.from_vscode").lazy_load()
 
         cmp.setup({
+            widnow = {
+                completion = {
+                    border = border
+                },
+                documentation = {
+                    border = border
+                }
+            },
             snippet = {
                 expand = function(args)
                     luasnip.lsp_expand(args.body)

@@ -4,7 +4,7 @@ return {
     dependencies = {
         "nvim-lua/plenary.nvim",
         "nvim-telescope/telescope-ui-select.nvim",
-        "nvim-telescope/telescope-fzf-native.nvim",
+        -- "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
         cond = function()
             return vim.fn.executable "make" == 1
@@ -15,12 +15,12 @@ return {
         local actions = require("telescope.actions")
         telescope.setup({
             extensions = {
-                fzf = {
-                    fuzzy = true,                   -- false will only do exact matching
-                    override_generic_sorter = true, -- override the generic sorter
-                    override_file_sorter = true,    -- override the file sorter
-                    case_mode = "smart_case",       -- or "ignore_case" or "respect_case" or "smart_case"
-                },
+                -- fzf = {
+                --     fuzzy = true,                   -- false will only do exact matching
+                --     override_generic_sorter = true, -- override the generic sorter
+                --     override_file_sorter = true,    -- override the file sorter
+                --     case_mode = "smart_case",       -- or "ignore_case" or "respect_case" or "smart_case"
+                -- },
                 ["ui-select"] = {
                     layout_config = { width = 0.4, height = 0.4 },
                 },
@@ -43,7 +43,6 @@ return {
             },
         })
 
-        -- telescope.load_extension("fzf")
         telescope.load_extension("ui-select")
 
         vim.keymap.set('n', '<leader>sf', require('telescope.builtin').git_files, { desc = '[S]earch [F]iles' })
