@@ -71,8 +71,8 @@ return {
         }
     },
     config = function(_, options)
-        vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>')
-        vim.keymap.set('n', '<esc>', '<cmd>NvimTreeClose<cr>')
+        -- vim.keymap.set('n', '<leader>e', '<cmd>NvimTreeToggle<cr>')
+        -- vim.keymap.set('n', '<esc>', '<cmd>NvimTreeClose<cr>')
         require("nvim-tree").setup(options)
     end
 }
