@@ -6,7 +6,7 @@ local local_plugin = {
         ft = "dart",
         dir = "~/Development/opensource/flutter-bloc.nvim",
         opts = {
-            blocType = "equatable" -- or "equatable" or "freezed"
+            blocType = "default" -- or "equatable" or "freezed"
         }
     }
 }

@@ -5,7 +5,7 @@ return {
         numhl = false,
         linehl = false,
         word_diff = false,
-        current_line_blame = true,
+        current_line_blame = false,
         signs = {
             add = { text = '▕' },
             change = { text = '▕' },
