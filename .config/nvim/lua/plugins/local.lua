@@ -4,6 +4,9 @@ local local_plugin = {
         lazy = true,
         ft = "dart",
         dir = "~/Development/opensource/flutter-bloc.nvim",
+        dependencies = {
+            "nvimtools/none-ls.nvim",
+        },
         opts = {
             bloc_type = "equatable", -- "default" or "equatable" or "freezed"
             use_sealed_classes = true,
