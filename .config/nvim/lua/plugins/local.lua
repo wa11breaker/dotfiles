@@ -1,4 +1,3 @@
--- Plugin configuration (in your lazy plugins file)
 local local_plugin = {
     {
         "flutter-bloc.nvim",
@@ -6,7 +5,8 @@ local local_plugin = {
         ft = "dart",
         dir = "~/Development/opensource/flutter-bloc.nvim",
         opts = {
-            blocType = "default" -- or "equatable" or "freezed"
+            bloc_type = "equatable", -- "default" or "equatable" or "freezed"
+            use_sealed_classes = true,
         }
     }
 }

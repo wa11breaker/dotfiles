@@ -32,6 +32,8 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.wrap = false
 
+vim.o.cmdheight = 0
+
 vim.opt.fillchars:append({
     eob = " ",
     -- horiz = " ",
