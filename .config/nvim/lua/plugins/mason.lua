@@ -22,7 +22,7 @@ return {
 
         require("mason").setup({})
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls" },
+            ensure_installed = { "lua_ls", "clangd", "harper_ls" },
             handlers = {
                 function(server_name)
                     local lsp_config = require("lspconfig")
@@ -30,6 +30,17 @@ return {
                     lsp_config[server_name].setup({
                         handlers = handlers,
                     })
+                    lsp_config.harper_ls.setup({
+                        settings = {
+                            ["harper-ls"] = {
+                                linters = {
+                                    SentenceCapitalization = false,
+                                    SpellCheck = false
+                                }
+                            }
+                        }
+                    })
+
                     lsp_config.lua_ls.setup({
                         settings = {
                             Lua = {
@@ -47,6 +58,7 @@ return {
                             }
                         }
                     })
+
                     lsp_config.dartls.setup({
                         cmd = {
                             "dart",

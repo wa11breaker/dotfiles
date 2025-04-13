@@ -16,3 +16,10 @@ Codeium/!
 Neovim/!
 Neovim
 localhost
+BlocBuilder
+BlocSelector
+BlocListener
+BlocConsumer
+BlocProvider
+RepositoryProvider
+BLoC

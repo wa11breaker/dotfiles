@@ -4,7 +4,7 @@ return {
     priority = 900,
     dependencies = {
         "neovim/nvim-lspconfig",
-        "hrsh7th/cmp-nvim-lsp",
+        "saghen/blink.cmp",
         {
             "j-hui/fidget.nvim",
             opts = {}
@@ -43,7 +43,7 @@ return {
         end
 
         lsp_zero.extend_lspconfig({
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
+            capabilities = require('blink.cmp').get_lsp_capabilities(),
             sign_text = {
                 error = "•",
                 warn = "•",
