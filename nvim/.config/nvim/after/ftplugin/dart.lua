@@ -58,5 +58,3 @@ function DeleteDartComments()
 end
 
 vim.api.nvim_create_user_command("DeleteDartComments", DeleteDartComments, {})
-
-vim.api.nvim_create_user_command("DeleteDartComments", DeleteDartComments, {})
