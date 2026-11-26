@@ -9,6 +9,7 @@ vim.opt.mouse = 'a'
 vim.opt.showmode = false
 vim.opt.clipboard = 'unnamedplus'
 vim.opt.undofile = true
+vim.opt.exrc = true -- load trusted project-local .nvim.lua files
 
 -- Search
 vim.opt.ignorecase = true
@@ -79,10 +80,12 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
--- Clipboard helpers
-map({ "n", "v" }, "<leader>y", [["+y]])
+-- Clipboard helpers (yank already goes to + via clipboard=unnamedplus)
 map("x", "<leader>p", [["_dP]])
-map({ "n", "v" }, "<leader>d", [["_d]])
+-- Delete without yanking. Normal mode only gets <leader>dd (line) because
+-- <leader>d is the debug prefix; visual <leader>d doesn't clash with it.
+map("n", "<leader>dd", [["_dd]], { desc = "Delete line (no yank)" })
+map("x", "<leader>d", [["_d]], { desc = "Delete selection (no yank)" })
 
 -- Window navigation
 for i = 1, 6 do
@@ -102,8 +105,6 @@ map('n', '<leader>i', vim.diagnostic.open_float)
 
 -- Shared border style
 local border = { '┌', '─', '┐', '│', '┘', '─', '└', '│' }
-vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#2c2e34", bg = "#2c2e34" })
-
 
 vim.cmd("packadd nvim.undotree")
 vim.keymap.set("n", "<leader>u", function()
@@ -138,6 +139,7 @@ map("n", "-", "<cmd>Oil<cr>")
 vim.pack.add({ { src = "https://github.com/ibhagwan/fzf-lua" } })
 local fzf = require("fzf-lua")
 fzf.setup({ "telescope", winopts = { border = border } })
+fzf.register_ui_select()
 
 map('n', '<leader>sf', fzf.files)
 map('n', '<leader>sF', fzf.git_files)
@@ -176,9 +178,14 @@ require("blink.cmp").setup({
 -- Diagnostics UI
 vim.pack.add({ { src = "https://github.com/folke/trouble.nvim" } })
 require("trouble").setup({})
-map("n", "<leader>dla", "<cmd>Trouble diagnostics toggle<cr>")
-map("n", "<leader>dl", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>")
-map("n", "<leader>ds", "<cmd>Trouble symbols toggle<cr>")
+-- Under <leader>x (<leader>d is the debug prefix)
+map("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Diagnostics (workspace)" })
+map("n", "<leader>xb", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Diagnostics (buffer)" })
+map("n", "<leader>xs", "<cmd>Trouble symbols toggle<cr>", { desc = "Symbols" })
+
+-- Dart SDK binary (used by conform + dartls); fall back to FVM's default SDK if dart isn't on PATH
+local dart_bin = vim.fn.exepath("dart")
+if dart_bin == "" then dart_bin = vim.fn.expand("~/fvm/default/bin/dart") end
 
 -- Formatter
 vim.pack.add({ { src = "https://github.com/stevearc/conform.nvim" } })
@@ -188,8 +195,12 @@ require("conform").setup({
         python = { "isort", "black" },
         javascript = { "prettier" },
         typescript = { "prettier" },
+        dart = { "dart_format" },
     },
-    format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    formatters = {
+        dart_format = { command = dart_bin },
+    },
+    format_on_save = { timeout_ms = 500, lsp_format = "fallback" },
 })
 
 -- LSP setup
@@ -205,7 +216,6 @@ local servers = { lua_ls = {}, jsonls = {} }
 
 require("mason-lspconfig").setup({
     ensure_installed = vim.tbl_keys(servers),
-    automatic_installation = true,
 })
 
 local capabilities = vim.tbl_deep_extend(
@@ -227,9 +237,9 @@ vim.lsp.config("lua_ls", {
 
 vim.lsp.enable(vim.tbl_keys(servers))
 
--- dart LSP setup
+-- dart LSP setup (server ships with the Dart SDK)
 vim.lsp.config("dartls", {
-    cmd = { "dart", "language-server", "--protocol=lsp" },
+    cmd = { dart_bin, "language-server", "--protocol=lsp" },
     filetypes = { "dart" },
     root_markers = { "pubspec.yaml" },
     init_options = {
@@ -241,6 +251,45 @@ vim.lsp.config("dartls", {
     },
 })
 vim.lsp.enable("dartls")
+
+-- Treesitter (dart parser is also used by flutter-bloc code actions)
+-- lua, vim, vimdoc, markdown, query and c parsers ship with Neovim itself.
+vim.pack.add({ { src = "https://github.com/nvim-treesitter/nvim-treesitter", version = "main" } })
+require("nvim-treesitter").install({
+    "dart", "python", "javascript", "typescript", "go", "ruby", "json", "yaml", "bash",
+})
+vim.api.nvim_create_autocmd("FileType", {
+    group = vim.api.nvim_create_augroup("UserTreesitter", { clear = true }),
+    callback = function(args)
+        -- Silently skip filetypes without an installed parser
+        pcall(vim.treesitter.start, args.buf)
+    end,
+})
+
+-- flutter-bloc (local checkout for testing); guarded so a missing checkout
+-- doesn't abort the rest of the config
+local flutter_bloc_path = vim.fn.expand("~/development/projects/neovim/flutter-bloc.nvim")
+if vim.uv.fs_stat(flutter_bloc_path) then
+    vim.opt.rtp:prepend(flutter_bloc_path)
+    local ok, flutter_bloc = pcall(require, "flutter-bloc")
+    if ok then
+        flutter_bloc.setup()
+    else
+        vim.notify("flutter-bloc failed to load: " .. flutter_bloc, vim.log.levels.WARN)
+    end
+end
+
+-- dart-data-class-generator (local checkout for testing)
+local dart_data_class_path = vim.fn.expand("~/development/projects/neovim/dart-data-class-generator.nvim")
+if vim.uv.fs_stat(dart_data_class_path) then
+    vim.opt.rtp:prepend(dart_data_class_path)
+    local ok, dart_data_class = pcall(require, "dart-data-class-generator")
+    if ok then
+        dart_data_class.setup()
+    else
+        vim.notify("dart-data-class-generator failed to load: " .. dart_data_class, vim.log.levels.WARN)
+    end
+end
 
 -- Diagnostics config
 vim.diagnostic.config({
@@ -257,7 +306,7 @@ vim.diagnostic.config({
     },
     update_in_insert = false,
     severity_sort = true,
-    float = { border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" } },
+    float = { border = border },
 })
 
 -- Session
@@ -301,7 +350,7 @@ require("lualine").setup({
         lualine_z = {},
     },
     tabline = {},
-    extensions = { "man", "nvim-dap-ui", "toggleterm", "nvim-tree" },
+    extensions = { "man", "nvim-tree" },
 })
 map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 
@@ -310,6 +359,15 @@ local HEIGHT_RATIO = 0.8
 local WIDTH_RATIO = 0.5
 vim.pack.add({ { src = "https://github.com/nvim-tree/nvim-tree.lua" } })
 require("nvim-tree").setup({
+    -- Leave directory buffers (`nvim .`, :e dir/) to oil
+    hijack_netrw = false,
+    hijack_directories = { enable = false },
+    on_attach = function(bufnr)
+        local api = require("nvim-tree.api")
+        api.config.mappings.default_on_attach(bufnr)
+        vim.keymap.set("n", "<Esc>", api.tree.close,
+            { buffer = bufnr, noremap = true, silent = true, nowait = true, desc = "nvim-tree: Close" })
+    end,
     filters = { dotfiles = true, custom = { ".git", ".DS_Store" } },
     update_focused_file = { enable = true, update_root = true },
     renderer = {
@@ -331,7 +389,7 @@ require("nvim-tree").setup({
                 local sw, sh = vim.opt.columns:get(), vim.opt.lines:get() - vim.opt.cmdheight:get()
                 local w, h = math.floor(sw * WIDTH_RATIO), math.floor(sh * HEIGHT_RATIO)
                 return {
-                    border = { "┌", "─", "┐", "│", "┘", "─", "└", "│" },
+                    border = border,
                     style = "minimal",
                     relative = "editor",
                     col = math.floor((sw - w) / 2),
@@ -357,36 +415,96 @@ local dapview = require("dap-view")
 dapview.setup()
 require("nvim-dap-virtual-text").setup()
 
-local dap_group = vim.api.nvim_create_augroup("UserDap", { clear = true })
-vim.api.nvim_create_autocmd("User", {
-    pattern  = "DapSessionCreated",
-    group    = dap_group,
-    callback = function() dapview.open() end,
-})
-vim.api.nvim_create_autocmd("User", {
-    pattern  = "DapSessionTerminated",
-    group    = dap_group,
-    callback = function() dapview.close() end,
-})
+-- ---------- Keymaps (all under <leader>d) ----------
+map("n", "<leader>dc", dap.continue, { desc = "Debug: start / continue" })
+map("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: toggle breakpoint" })
+map("n", "<leader>dB", function()
+    dap.set_breakpoint(vim.fn.input("Breakpoint condition: "))
+end, { desc = "Debug: conditional breakpoint" })
+map("n", "<leader>dn", dap.step_over, { desc = "Debug: step over (next)" })
+map("n", "<leader>di", dap.step_into, { desc = "Debug: step into" })
+map("n", "<leader>do", dap.step_out, { desc = "Debug: step out" })
+map("n", "<leader>dr", dap.run_to_cursor, { desc = "Debug: run to cursor" })
+map({ "n", "v" }, "<leader>de", function() require("dap.ui.widgets").hover() end,
+    { desc = "Debug: evaluate under cursor" })
+map("n", "<leader>dv", dapview.toggle, { desc = "Debug: toggle DAP view" })
+map("n", "<leader>dR", dap.restart, { desc = "Debug: restart" })
+map("n", "<leader>dq", function()
+    -- Disconnect without killing the app (matters when attached to `flutter run`)
+    dap.disconnect({ terminateDebuggee = false })
+end, { desc = "Debug: stop / disconnect" })
 
--- ---------- Keymaps ----------
-local map = vim.keymap.set
-map("n", "<space>b", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
-map("n", "<space>gb", dap.run_to_cursor, { desc = "Run to cursor" })
-map("n", "<space>dv", dapview.toggle, { desc = "Toggle DAP view" })
-map("n", "<F1>", dap.continue, { desc = "DAP continue" })
-map("n", "<F2>", dap.step_into, { desc = "DAP step into" })
-map("n", "<F3>", dap.step_over, { desc = "DAP step over" })
-map("n", "<F4>", dap.step_out, { desc = "DAP step out" })
-map("n", "<F5>", dap.step_back, { desc = "DAP step back" })
-map("n", "<F13>", dap.restart, { desc = "DAP restart" })
+-- ---------- Session-only single-key stepping ----------
+-- While a debug session is active: n = step over, i = into, o = out, c = continue.
+-- Whatever those keys were mapped to before (e.g. n -> nzzzv) is restored when
+-- the last session ends.
+local session_keys = {
+    n = { dap.step_over, "Debug: step over" },
+    i = { dap.step_into, "Debug: step into" },
+    o = { dap.step_out, "Debug: step out" },
+    c = { dap.continue, "Debug: continue" },
+}
+local saved_maps = nil
+
+local function enable_session_keys()
+    if saved_maps then return end
+    saved_maps = {}
+    for lhs, spec in pairs(session_keys) do
+        local prev = vim.fn.maparg(lhs, "n", false, true)
+        saved_maps[lhs] = (prev and prev.lhs) and prev or false
+        vim.keymap.set("n", lhs, spec[1], { desc = spec[2] })
+    end
+end
+
+local function disable_session_keys()
+    if not saved_maps or dap.session() then return end -- other sessions still running
+    for lhs, prev in pairs(saved_maps) do
+        pcall(vim.keymap.del, "n", lhs)
+        if prev then vim.fn.mapset("n", false, prev) end
+    end
+    saved_maps = nil
+end
+
+-- Open the view and enable stepping keys when a session starts; undo when it ends
+dap.listeners.after.event_initialized["user-dap"] = function()
+    enable_session_keys()
+    dapview.open()
+end
+local function on_session_end()
+    vim.schedule(function()
+        if dap.session() then return end
+        disable_session_keys()
+        dapview.close()
+    end)
+end
+dap.listeners.after.event_terminated["user-dap"] = on_session_end
+dap.listeners.after.event_exited["user-dap"] = on_session_end
+dap.listeners.after.disconnect["user-dap"] = on_session_end
 
 -- ---------- Flutter / Dart adapter ----------
-dap.adapters.dart = {
-    type    = "executable",
-    command = "flutter",
-    args    = { "debug_adapter" },
-}
+-- Resolve flutter at session start: project-pinned FVM SDK (.fvm/flutter_sdk),
+-- then PATH, then FVM's global default. Neovim's PATH may not include FVM.
+local function flutter_bin(root)
+    local candidates = {
+        root .. "/.fvm/flutter_sdk/bin/flutter",
+        vim.fn.exepath("flutter"),
+        vim.fn.expand("~/fvm/default/bin/flutter"),
+    }
+    for _, path in ipairs(candidates) do
+        if path ~= "" and vim.fn.executable(path) == 1 then return path end
+    end
+    return "flutter"
+end
+
+dap.adapters.dart = function(callback, config)
+    local root = config.cwd or vim.fn.getcwd()
+    root = root:gsub("%${workspaceFolder}", vim.fn.getcwd())
+    callback({
+        type    = "executable",
+        command = flutter_bin(root),
+        args    = { "debug_adapter" },
+    })
+end
 
 dap.configurations.dart = {
     {
@@ -396,11 +514,88 @@ dap.configurations.dart = {
         program  = "${workspaceFolder}/lib/main.dart",
         cwd      = "${workspaceFolder}",
         toolArgs = function()
-            local device = vim.fn.input("Device ID: ", "macos")
+            local device = vim.fn.input("Device ID: ", "emulator-5554")
             return { "-d", device }
         end,
     },
+    {
+        -- Attach to an app started with `flutter run` in a terminal.
+        -- Prompts are handled by the on_config hook below.
+        -- Web (Chrome) apps can't be attached to; use the Launch config instead.
+        type          = "dart",
+        request       = "attach",
+        name          = "Attach to running app",
+        cwd           = "${workspaceFolder}",
+        flutterAttach = true,
+    },
 }
+
+local function adb_bin()
+    local candidates = {
+        vim.fn.exepath("adb"),
+        (vim.env.ANDROID_HOME or "") .. "/platform-tools/adb",
+        "/opt/homebrew/share/android-commandlinetools/platform-tools/adb",
+    }
+    for _, p in ipairs(candidates) do
+        if p ~= "" and vim.fn.executable(p) == 1 then return p end
+    end
+end
+
+-- Newest device-side VM service URL for the app on an Android device.
+-- `flutter attach` without a URL scans logcat and can latch onto a stale entry
+-- from an earlier run (attaching to a dead VM: no threads, breakpoints never
+-- resolve). And on Android, --debug-url must be the DEVICE-side URL (it gets
+-- adb-forwarded), not the host URL `flutter run` prints. So read logcat ourselves.
+local function android_vm_service_uri(adb, device)
+    -- Only consider log lines from processes that are still alive
+    local alive = {}
+    for _, pid in ipairs(vim.fn.systemlist({ adb, "-s", device, "shell", "ps", "-A", "-o", "PID" })) do
+        alive[vim.trim(pid)] = true
+    end
+    local lines = vim.fn.systemlist({ adb, "-s", device, "logcat", "-d", "-v", "threadtime", "-s", "flutter" })
+    local uri
+    for _, line in ipairs(lines) do
+        -- "11-26 22:42:38.804  5823  5872 I flutter : The Dart VM service is listening on http://..."
+        local pid, found = line:match("^%S+%s+%S+%s+(%d+)%s+%d+.-Dart VM [Ss]ervice is listening on (http://%S+)")
+        if pid and alive[pid] then uri = found end
+    end
+    return uri
+end
+
+local function normalize_vm_uri(uri)
+    -- Accept the DevTools link: http://host/TOKEN=/devtools/?uri=ws://host/TOKEN=/ws
+    local embedded = uri:match("[?&]uri=([^&]+)")
+    if embedded then uri = vim.uri_decode(embedded) end
+    -- ws://host/TOKEN=/ws -> http://host/TOKEN=/
+    return (uri:gsub("^ws://", "http://"):gsub("/ws$", "/"))
+end
+
+dap.listeners.on_config["flutter-attach"] = function(config)
+    if not config.flutterAttach then return config end
+    config = vim.deepcopy(config)
+    config.flutterAttach = nil
+
+    -- `flutter attach` refuses to pick when several devices are connected
+    local device = vim.trim(vim.fn.input("Device ID: ", "emulator-5554"))
+    config.toolArgs = { "-d", device }
+
+    local adb = adb_bin()
+    local is_android = adb and vim.fn.system({ adb, "-s", device, "get-state" }):match("device") ~= nil
+    if is_android then
+        local uri = android_vm_service_uri(adb, device)
+        if uri then
+            config.vmServiceUri = uri
+            vim.notify("Attaching to " .. uri, vim.log.levels.INFO)
+        else
+            vim.notify("No VM service found in logcat; is `flutter run` running?", vim.log.levels.WARN)
+        end
+    else
+        -- Desktop/iOS: paste the "Dart VM Service ... available at:" URL (or leave empty)
+        local uri = vim.trim(vim.fn.input("VM Service URI (empty = auto-discover): "))
+        if uri ~= "" then config.vmServiceUri = normalize_vm_uri(uri) end
+    end
+    return config
+end
 
 -- Autocmds
 local augroup = vim.api.nvim_create_augroup
@@ -409,7 +604,7 @@ local augroup = vim.api.nvim_create_augroup
 vim.api.nvim_create_autocmd("TextYankPost", {
     group = augroup("HighlightYank", { clear = true }),
     callback = function()
-        vim.highlight.on_yank({ timeout = 150 })
+        vim.hl.on_yank({ timeout = 150 })
     end,
 })
 
@@ -446,23 +641,25 @@ vim.api.nvim_create_autocmd("LspAttach", {
         map("n", "K", vim.lsp.buf.hover)
         map("n", "<C-k>", vim.lsp.buf.signature_help)
         map("n", "<leader>rn", vim.lsp.buf.rename)
-        map("n", "<leader>f", function() vim.lsp.buf.format({ async = true }) end)
-        map("v", "<leader>f", function() vim.lsp.buf.format({ async = true }) end)
+        -- Same formatter as format-on-save (conform), LSP only as fallback
+        map({ "n", "v" }, "<leader>f", function()
+            require("conform").format({ async = true, lsp_format = "fallback" })
+        end)
 
+        -- Uses Neovim's built-in gr* prefix (grr/gri/grt/gra) so plain `gr`
+        -- doesn't wait on timeoutlen, and `gi`/`gt` keep their Vim meaning.
         -- Prefer fzf-lua pickers when available, fall back to built-ins
         local ok, fzf = pcall(require, "fzf-lua")
         if ok then
             map("n", "gd", fzf.lsp_definitions)
-            map("n", "gr", fzf.lsp_references)
-            map("n", "gi", fzf.lsp_implementations)
-            map("n", "gt", fzf.lsp_typedefs)
-            map("n", "<leader>ca", fzf.lsp_code_actions)
+            map("n", "grr", fzf.lsp_references)
+            map("n", "gri", fzf.lsp_implementations)
+            map("n", "grt", fzf.lsp_typedefs)
+            map({ "n", "v" }, "gra", fzf.lsp_code_actions)
+            map({ "n", "v" }, "<leader>ca", fzf.lsp_code_actions)
         else
             map("n", "gd", vim.lsp.buf.definition)
-            map("n", "gr", vim.lsp.buf.references)
-            map("n", "gi", vim.lsp.buf.implementation)
-            map("n", "gt", vim.lsp.buf.type_definition)
-            map("n", "<leader>ca", vim.lsp.buf.code_action)
+            map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action)
         end
     end,
 })

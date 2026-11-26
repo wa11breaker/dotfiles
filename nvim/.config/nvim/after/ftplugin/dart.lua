@@ -1,60 +1,61 @@
-local function flutter_commands()
-    require('telescope').extensions.flutter.commands()
-end
-
-local function flutter_fcm()
-    require('telescope').extensions.flutter.fvm()
-end
-
-_G.flutter = flutter_commands
-_G.fvm = flutter_fcm
-
-vim.cmd [[command! Flutter lua flutter()]]
-vim.cmd [[command! Fvm lua fvm()]]
-
 -- Create bloc and cubit
-vim.keymap.set("n", "<Leader>cfb", "<cmd>lua require('flutter-bloc').create_bloc()<cr>",
-    { desc = '[C]reate [F]lutter [B]loc' })
-vim.keymap.set("n", "<Leader>cfc", "<cmd>lua require('flutter-bloc').create_cubit()<cr>",
-    { desc = '[C]reate [F]lutter [C]ubit' })
+vim.keymap.set("n", "<Leader>cfb", function() require("flutter-bloc").create_bloc() end,
+    { buffer = true, desc = "[C]reate [F]lutter [B]loc" })
+vim.keymap.set("n", "<Leader>cfc", function() require("flutter-bloc").create_cubit() end,
+    { buffer = true, desc = "[C]reate [F]lutter [C]ubit" })
 
-function DeleteDartComments()
-    if vim.bo.filetype ~= "dart" then
-        print("Not a Dart file")
+-- Remove all comments from the current Dart buffer.
+-- Uses the treesitter parse tree, so `//` inside strings (e.g. URLs) is left alone.
+-- Lines that only held a comment are removed; existing blank lines are kept.
+local function delete_dart_comments(bufnr)
+    local ok, parser = pcall(vim.treesitter.get_parser, bufnr, "dart")
+    if not ok or not parser then
+        vim.notify("Dart treesitter parser not available", vim.log.levels.ERROR)
         return
     end
 
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    local new_lines = {}
+    local root = parser:parse()[1]:root()
+    local query = vim.treesitter.query.parse("dart", "[(comment) (documentation_comment)] @comment")
 
-    local multi_line_comment = false
-    for _, line in ipairs(lines) do
-        -- Remove single-line comments (// and ///)
-        local clean_line = line:gsub("%s*//.*", "")
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
 
-        -- Handle multi-line comments (/* */)
-        if multi_line_comment then
-            if clean_line:find("%*/") then
-                clean_line = clean_line:gsub(".*%*/", "")
-                multi_line_comment = false
-            else
-                clean_line = ""
-            end
-        else
-            if clean_line:find("/%*") then
-                clean_line = clean_line:gsub("/%*.*", "")
-                multi_line_comment = true
-            end
-        end
-
-        -- Add non-empty lines
-        if clean_line:match("%S") then
-            table.insert(new_lines, clean_line)
+    -- Collect byte spans to cut, per line (0-based start col, exclusive end col)
+    local cuts = {}
+    local function add_cut(row, scol, ecol)
+        cuts[row] = cuts[row] or {}
+        table.insert(cuts[row], { scol, ecol })
+    end
+    for _, node in query:iter_captures(root, bufnr) do
+        local srow, scol, erow, ecol = node:range()
+        for row = srow, erow do
+            local len = #lines[row + 1]
+            add_cut(row, row == srow and scol or 0, row == erow and ecol or len)
         end
     end
+    if vim.tbl_isempty(cuts) then return end
 
-    -- Set the modified lines back to the buffer
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, new_lines)
+    local out = {}
+    for i, line in ipairs(lines) do
+        local row_cuts = cuts[i - 1]
+        if not row_cuts then
+            table.insert(out, line)
+        else
+            -- Apply cuts right-to-left so earlier columns stay valid
+            table.sort(row_cuts, function(a, b) return a[1] > b[1] end)
+            local new = line
+            for _, c in ipairs(row_cuts) do
+                new = new:sub(1, c[1]) .. new:sub(c[2] + 1)
+            end
+            new = new:gsub("%s+$", "")
+            -- Drop lines that only held a comment
+            if new:match("%S") then
+                table.insert(out, new)
+            end
+        end
+    end
+    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, out)
 end
 
-vim.api.nvim_create_user_command("DeleteDartComments", DeleteDartComments, {})
+vim.api.nvim_buf_create_user_command(0, "DeleteDartComments", function()
+    delete_dart_comments(vim.api.nvim_get_current_buf())
+end, { desc = "Delete all comments in this Dart buffer" })

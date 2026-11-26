@@ -1,6 +1,5 @@
 set syntax=off
 set clipboard=unnamedplus
-set paste
 
 xnoremap Y "+y
 let mapleader="\<Space>"
