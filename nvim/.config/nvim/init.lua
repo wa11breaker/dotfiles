@@ -126,6 +126,14 @@ vim.api.nvim_set_hl(0, "NormalNC", { link = "Normal" })
 vim.api.nvim_set_hl(0, "Pmenu", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "PmenuBorder", { bg = "NONE" })
 
+-- Images (kitty graphics protocol). Only the image module of snacks is enabled.
+-- Renders image files opened as buffers, plus fzf-lua / oil / nvim-tree previews.
+-- Needs ImageMagick (`magick`) for non-PNG formats.
+vim.pack.add({ { src = "https://github.com/folke/snacks.nvim" } })
+require("snacks").setup({
+    image = { enabled = true },
+})
+
 -- File explorer
 vim.pack.add({ { src = "https://github.com/stevearc/oil.nvim" } })
 require("oil").setup({
@@ -163,16 +171,48 @@ require("gitsigns").setup({
 vim.pack.add({ { src = "https://github.com/Saghen/blink.cmp" } })
 require("blink.cmp").setup({
     fuzzy = { prebuilt_binaries = { download = true, force_version = "v1.*" } },
+    -- VS Code-style keys
     keymap = {
-        preset = "default",
-        ["<Tab>"] = { "select_next", "fallback" },
-        ["<S-Tab>"] = { "select_prev", "fallback" },
+        preset = "none",
+        -- Menu closed: open it. Menu open: toggle the docs panel.
+        ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
         ["<CR>"] = { "accept", "fallback" },
+        -- Tab accepts when the menu is open, otherwise jumps to the next snippet placeholder
+        ["<Tab>"] = { "accept", "snippet_forward", "fallback" },
+        ["<S-Tab>"] = { "snippet_backward", "fallback" },
+        ["<Up>"] = { "select_prev", "fallback" },
+        ["<Down>"] = { "select_next", "fallback" },
+        ["<C-p>"] = { "select_prev", "fallback" },
+        ["<C-n>"] = { "select_next", "fallback" },
+        ["<C-e>"] = { "cancel", "fallback" },
+        ["<C-b>"] = { "scroll_documentation_up", "fallback" },
+        ["<C-f>"] = { "scroll_documentation_down", "fallback" },
+        ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
     },
+    appearance = { nerd_font_variant = "mono" },
     completion = {
-        documentation = { auto_show = true },
-        menu = { border = border },
+        -- First item selected; moving through the list doesn't change the text
+        list = { selection = { preselect = true, auto_insert = false } },
+        -- Insert () after accepting a function/method
+        accept = { auto_brackets = { enabled = true } },
+        menu = {
+            border = border,
+            draw = {
+                treesitter = { "lsp" },
+                columns = {
+                    { "kind_icon" },
+                    { "label", "label_description", gap = 1 },
+                    { "kind" },
+                },
+            },
+        },
+        -- Docs panel stays closed until <C-space> (press again to hide)
+        documentation = { auto_show = false, window = { border = border } },
+        ghost_text = { enabled = false },
     },
+    -- Parameter hints while typing a call, like VS Code
+    signature = { enabled = true, window = { border = border } },
+    sources = { default = { "lsp", "path", "snippets", "buffer" } },
 })
 
 -- Diagnostics UI
@@ -357,6 +397,57 @@ map("n", "<leader>e", "<cmd>NvimTreeToggle<cr>")
 -- Tree
 local HEIGHT_RATIO = 0.8
 local WIDTH_RATIO = 0.5
+
+-- Image preview float shown beside the (floating) nvim-tree while the cursor is
+-- on an image file. nvim-tree has no preview of its own.
+local tree_preview = { win = nil, buf = nil, path = nil }
+
+local function tree_preview_close()
+    if tree_preview.win and vim.api.nvim_win_is_valid(tree_preview.win) then
+        vim.api.nvim_win_close(tree_preview.win, true)
+    end
+    if tree_preview.buf and vim.api.nvim_buf_is_valid(tree_preview.buf) then
+        vim.api.nvim_buf_delete(tree_preview.buf, { force = true })
+    end
+    tree_preview.win, tree_preview.buf, tree_preview.path = nil, nil, nil
+end
+
+local function tree_preview_update()
+    local ok, node = pcall(function() return require("nvim-tree.api").tree.get_node_under_cursor() end)
+    local path = ok and node and node.type == "file" and node.absolute_path or nil
+    if not path or not Snacks.image.supports(path) then
+        return tree_preview_close()
+    end
+    if path == tree_preview.path then return end
+    tree_preview_close()
+
+    -- Place it in the space to the right of the tree; overlap the tree's right
+    -- half if the screen is too narrow.
+    local tree_win = vim.api.nvim_get_current_win()
+    local cfg = vim.api.nvim_win_get_config(tree_win)
+    local col = (cfg.col or 0) + cfg.width + 2
+    local width = vim.o.columns - col - 2
+    if width < 30 then
+        width = math.floor(cfg.width / 2)
+        col = (cfg.col or 0) + cfg.width - width
+    end
+
+    local buf = vim.api.nvim_create_buf(false, true)
+    local win = vim.api.nvim_open_win(buf, false, {
+        relative = "editor",
+        row = cfg.row or 0,
+        col = col,
+        width = width,
+        height = cfg.height,
+        border = border,
+        style = "minimal",
+        focusable = false,
+        title = " " .. vim.fn.fnamemodify(path, ":t") .. " ",
+        title_pos = "center",
+    })
+    tree_preview.win, tree_preview.buf, tree_preview.path = win, buf, path
+    Snacks.image.buf.attach(buf, { src = path })
+end
 vim.pack.add({ { src = "https://github.com/nvim-tree/nvim-tree.lua" } })
 require("nvim-tree").setup({
     -- Leave directory buffers (`nvim .`, :e dir/) to oil
@@ -367,6 +458,16 @@ require("nvim-tree").setup({
         api.config.mappings.default_on_attach(bufnr)
         vim.keymap.set("n", "<Esc>", api.tree.close,
             { buffer = bufnr, noremap = true, silent = true, nowait = true, desc = "nvim-tree: Close" })
+
+        -- Image preview beside the tree
+        local group = vim.api.nvim_create_augroup("NvimTreeImagePreview", { clear = false })
+        vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+        vim.api.nvim_create_autocmd("CursorMoved", {
+            group = group, buffer = bufnr, callback = tree_preview_update,
+        })
+        vim.api.nvim_create_autocmd({ "BufLeave", "BufWipeout" }, {
+            group = group, buffer = bufnr, callback = tree_preview_close,
+        })
     end,
     filters = { dotfiles = true, custom = { ".git", ".DS_Store" } },
     update_focused_file = { enable = true, update_root = true },
